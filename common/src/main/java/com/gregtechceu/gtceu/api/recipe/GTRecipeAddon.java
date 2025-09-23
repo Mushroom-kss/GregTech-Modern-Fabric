@@ -13,6 +13,12 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class GTRecipeAddon implements FinishedRecipe{
 
+    /**
+     * @author Mushroom-net
+     * @date 2025/9/23
+     * @implNote add recipe for given modID.
+     */
+
     protected String RecipeModId = "gtceu";
     protected String RecipeType = ""; //necessary
     protected int InputAmount = 0; //necessary
@@ -45,10 +51,8 @@ public class GTRecipeAddon implements FinishedRecipe{
 
     @Override
     public void serializeRecipeData(@Nonnull JsonObject json) {
-        // Set recipe type
         json.addProperty("type", RecipeModId + ":" + RecipeType);
         
-        // Add ingredients - 1 ingot
         JsonArray ingredients = new JsonArray();
         JsonObject TypeIngredient = new JsonObject();
         TypeIngredient.addProperty("item", InputModId + ":" + (InputMaterial == null ? "" : (InputMaterial.getName() + "_")) + InputType);
@@ -56,7 +60,6 @@ public class GTRecipeAddon implements FinishedRecipe{
         ingredients.add(TypeIngredient);
         
         json.add("ingredients", ingredients);
-        // Add results - 1 plate
         JsonArray results = new JsonArray();
         JsonObject result = new JsonObject();
         result.addProperty("item", OutputModId + ":" + (OutputMaterial == null ? "" : (OutputMaterial.getName() + "_")) + OutputType);
