@@ -10,8 +10,19 @@ import com.lowdragmc.lowdraglib.gui.widget.ProgressWidget;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.LightLayer;
 
 public class SteamSolarBoiler extends SteamBoilerMachine {
+
+    /**
+     * @author Mushroom-net
+     * @implNote Solar Boiler,support block light source
+     * @param holder               the holder of this machine
+     * @param isHighPressure       whether this machine is high pressure
+     * @param args                 the arguments for this machine
+     */
+
+    private static final int LIGHTLEVEL = 11;
 
     public SteamSolarBoiler(IMachineBlockEntity holder, boolean isHighPressure, Object... args) {
         super(holder, isHighPressure, args);
@@ -36,7 +47,7 @@ public class SteamSolarBoiler extends SteamBoilerMachine {
 
     @Override
     protected void updateCurrentTemperature() {
-        if (GTUtil.canSeeSunClearly(getLevel(), getPos())){
+        if (GTUtil.canSeeSunClearly(getLevel(), getPos()) || getLevel().getBrightness(LightLayer.BLOCK, getPos().above()) > LIGHTLEVEL){
             recipeLogic.setStatus(RecipeLogic.Status.WORKING);
         }else {
             recipeLogic.setStatus(RecipeLogic.Status.IDLE);
@@ -56,10 +67,7 @@ public class SteamSolarBoiler extends SteamBoilerMachine {
 
     @Override
     public ModularUI createUI(Player entityPlayer) {
-        return super.createUI(entityPlayer)
-                .widget(new ProgressWidget(() -> GTUtil.canSeeSunClearly(getLevel(), getPos()) ? 1.0 : 0.0, 114, 44, 20, 20)
-                        .setProgressTexture(GuiTextures.PROGRESS_BAR_SOLAR_STEAM.get(isHighPressure).getSubTexture(0, 0, 1, 0.5),
-                                GuiTextures.PROGRESS_BAR_SOLAR_STEAM.get(isHighPressure).getSubTexture(0, 0.5, 1, 0.5)));
+        return super.createUI(entityPlayer).widget(new ProgressWidget(() -> (GTUtil.canSeeSunClearly(getLevel(), getPos()) || getLevel().getBrightness(LightLayer.BLOCK, getPos().above()) > LIGHTLEVEL) ? 1.0 : 0.0, 114, 44, 20, 20).setProgressTexture(GuiTextures.PROGRESS_BAR_SOLAR_STEAM.get(isHighPressure).getSubTexture(0, 0, 1, 0.5),GuiTextures.PROGRESS_BAR_SOLAR_STEAM.get(isHighPressure).getSubTexture(0, 0.5, 1, 0.5)));
     }
 
     @Override

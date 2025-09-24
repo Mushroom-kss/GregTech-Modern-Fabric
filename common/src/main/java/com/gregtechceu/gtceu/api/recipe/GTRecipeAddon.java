@@ -30,19 +30,19 @@ public class GTRecipeAddon implements FinishedRecipe{
     protected Material OutputMaterial = null;
     protected String OutputType = ""; //necessary
 
-    public GTRecipeAddon(String RecipeModId, @Nonnull String RecipeType, int InputAmount, String InputModId, Material InputMaterial, @Nonnull String InputType, int OutputAmount, String OutputModId, Material OutputMaterial, @Nonnull String OutputType) {
-        if (RecipeModId != "") {
+    public GTRecipeAddon(@Nonnull String RecipeModId, @Nonnull String RecipeType, int InputAmount, String InputModId, Material InputMaterial, @Nonnull String InputType, int OutputAmount, String OutputModId, Material OutputMaterial, @Nonnull String OutputType) {
+        if (RecipeModId != "" || RecipeModId !=null) {
             this.RecipeModId = RecipeModId;
         }
         this.RecipeType = RecipeType;
         this.InputAmount = InputAmount;
-        if(InputModId != "") {
+        if(InputModId != "" || InputModId != null) {
             this.InputModId = InputModId;
         }
         this.InputMaterial = InputMaterial;
         this.InputType = InputType;
         this.OutputAmount = OutputAmount;
-        if(OutputModId != "") {
+        if(OutputModId != "" || OutputModId != null) {
             this.OutputModId = OutputModId;
         }
         this.OutputMaterial = OutputMaterial;

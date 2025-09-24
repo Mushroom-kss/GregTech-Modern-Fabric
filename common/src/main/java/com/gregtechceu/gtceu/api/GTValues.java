@@ -106,7 +106,8 @@ public class GTValues {
             MODID_EMBEDDIUM = "embeddium",
             MODID_CREATE = "create",
             MODID_REBORN_ENERGY = "team_reborn_energy",
-            MODID_ALMOSTUNIFIED = "almostunified";
+            MODID_ALMOSTUNIFIED = "almostunified",
+            MODID_CREATE_ADDITION = "createaddition";
 
     /**
      * Spray painting compat modids

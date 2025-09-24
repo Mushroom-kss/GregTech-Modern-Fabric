@@ -1,4 +1,4 @@
 # TODO
 
-- 1.add solar boiler light level support
+- 1.add indicator language support
 - 2.add fluid pourable
