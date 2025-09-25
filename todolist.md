@@ -1,4 +1,4 @@
 # TODO
 
-- 1.add indicator language support
+- 1.repair the wires overlay hitbox issue
 - 2.add fluid pourable
