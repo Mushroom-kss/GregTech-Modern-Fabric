@@ -1353,7 +1353,7 @@
   "block.gtceu.zpm_transformer_4a": "零点压高流变压器(§cZPM§r)",
   "block.gtceu.zpm_wiremill": "§c精英线材轧机 III§r",
   "block.sterilizing_filter_casing.tooltip": "创造一个§a无菌§7环境",
-  "block.surface_rock": "小堆%s矿粉",
+  "block.surface_rock": "小堆%s粉",
   "compass.node.gtceu.batteries/energy_cluster": "能量簇",
   "compass.node.gtceu.batteries/energy_crystal": "能量水晶",
   "compass.node.gtceu.batteries/energy_module": "能量模块",
