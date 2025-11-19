@@ -79,12 +79,13 @@ configurations {
 
 repositories {
     // mavens for Fabric-exclusives
-    maven { url = "https://mvn.devos.one/snapshots/" } // Create Fabric, Porting Lib, Forge Tags, Milk Lib, Registrate Fabric
+    maven { url = "https://mvn.devos.one/snapshots/" } // Create Fabric, Forge Tags, Milk Lib, Registrate Fabric
+    maven { url = "https://mvn.devos.one/releases/" } // Porting Lib
     //maven { url = "https://maven.cafeteria.dev/releases" } // Fake Player API
     maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
-    maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
     maven { url = "https://maven.latvian.dev/releases" } // saps.dev Maven (KubeJS and Rhino)
+    //maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
 }
 
 dependencies {

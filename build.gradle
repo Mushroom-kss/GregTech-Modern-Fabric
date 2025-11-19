@@ -29,6 +29,8 @@ subprojects {
         maven { url = "https://api.modrinth.com/maven" } // LazyDFU, Jade
         maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu, EMI
         maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
+        maven { url = "https://maven.createmod.net/"}
+        maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
         maven {
             url "https://cursemaven.com"
             content {
@@ -54,7 +56,7 @@ subprojects {
                 // need to be specific here due to version overlaps
                 includeGroup("com.jozufozu.flywheel")
                 includeGroup("com.tterrag.registrate")
-                includeGroup("com.simibubi.create")
+                //includeGroup("com.simibubi.create")
             }
         }
         maven { // TOP-Fabric
