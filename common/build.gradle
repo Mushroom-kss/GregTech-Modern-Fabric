@@ -13,7 +13,8 @@ loom {
 }
 
 repositories {
-    maven { url = "https://mvn.devos.one/snapshots/" } // Create Fabric, Porting Lib, Forge Tags, Milk Lib, Registrate Fabric
+    maven { url = "https://mvn.devos.one/snapshots/" } // Create Fabric, Forge Tags, Milk Lib, Registrate Fabric
+    maven { url = "https://mvn.devos.one/releases/" } // Porting Lib
     //maven { url = "https://maven.cafeteria.dev/releases" } // Fake Player API
     maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
     maven {
