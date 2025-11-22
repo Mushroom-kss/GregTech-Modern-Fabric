@@ -6,7 +6,7 @@ plugins {
     alias libs.plugins.machete // automatic jar compressing on build
 }
 
-def is_root_project = project == rootProject
+def is_root_project = (project == rootProject)
 
 architectury {
     minecraft = libs.versions.minecraft
@@ -14,7 +14,6 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
-//    apply plugin: "io.github.juuxel.loom-vineflower"
 
     loom {
         silentMojangMappingsLicense()
@@ -26,10 +25,10 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
+        maven { url = "https://maven.createmod.net/"} // Flywheel
         maven { url = "https://api.modrinth.com/maven" } // LazyDFU, Jade
         maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu, EMI
-        maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
-        maven { url = "https://maven.createmod.net/"}
         maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
         maven {
             url "https://cursemaven.com"
@@ -47,14 +46,14 @@ subprojects {
             url = "https://modmaven.dev"
         } // JEI mirror, AE2
         maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
-        maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
         maven { url = "https://maven.latvian.dev/releases" } // latvian mods
         maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib
-        maven { // Flywheel
+        maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
+        maven { 
             url = "https://maven.tterrag.com/"
             content {
                 // need to be specific here due to version overlaps
-                includeGroup("com.jozufozu.flywheel")
+                //includeGroup("com.jozufozu.flywheel")
                 includeGroup("com.tterrag.registrate")
                 //includeGroup("com.simibubi.create")
             }
