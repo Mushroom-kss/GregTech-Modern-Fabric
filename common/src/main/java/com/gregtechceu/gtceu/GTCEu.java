@@ -7,8 +7,11 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.Platform;
+
 import lombok.Getter;
+
 import net.minecraft.resources.ResourceLocation;
+
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

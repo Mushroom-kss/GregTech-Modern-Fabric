@@ -105,7 +105,7 @@ dependencies {
     // Shimmer
     //modCompileOnly fabric.shimmer.common
 }
-
+/*
 publishing {
     publications {
         mavenCommon(MavenPublication) {
@@ -136,3 +136,4 @@ publishing {
         }
     }
 }
+*/

@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 /**
  * @Author GlodBlock
  * @Description A display only widget for {@link GenericInternalInventory}
- * @Date 2023/4/19-0:18
+ * @date 2023/4/19-0:18
  */
 public abstract class AEListGridWidget extends DraggableScrollableWidgetGroup {
 

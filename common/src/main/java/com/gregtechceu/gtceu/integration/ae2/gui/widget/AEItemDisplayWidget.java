@@ -18,7 +18,7 @@ import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawText;
 /**
  * @Author GlodBlock
  * @Description Display a certain {@link appeng.api.stacks.GenericStack} element.
- * @Date 2023/4/19-21:23
+ * @date 2023/4/19-21:23
  */
 public class AEItemDisplayWidget extends Widget {
 

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @Author GlodBlock
  * @Description A serializable {@link GenericStackInv} from AE2
- * @Date 2023/4/18-23:52
+ * @date 2023/4/18-23:52
  */
 public class SerializableGenericStackInv extends GenericStackInv implements ITagSerializable<ListTag>, IContentChangeAware {
 

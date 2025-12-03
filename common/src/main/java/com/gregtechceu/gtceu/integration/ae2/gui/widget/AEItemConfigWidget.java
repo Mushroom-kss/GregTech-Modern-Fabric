@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.integration.ae2.util.IConfigurableSlot;
 /**
  * @Author GlodBlock
  * @Description Display {@link net.minecraft.world.item.ItemStack} config
- * @Date 2023/4/22-1:02
+ * @date 2023/4/22-1:02
  */
 public class AEItemConfigWidget extends AEConfigWidget {
 

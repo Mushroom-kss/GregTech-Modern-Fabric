@@ -72,9 +72,7 @@ public class KineticMachineBuilder extends MachineBuilder<KineticMachineDefiniti
         return (KineticMachineBuilder) super.onBlockEntityRegister(onBlockEntityRegister);
     }
 
-    private static KineticMachineBuilder[] tieredMachines(String name,
-                                                          BiConsumer<MachineBuilder<KineticMachineDefinition>, Integer> builderConsumer,
-                                                          Integer... tiers) {
+    private static KineticMachineBuilder[] tieredMachines(String name, BiConsumer<MachineBuilder<KineticMachineDefinition>, Integer> builderConsumer, Integer... tiers) {
         KineticMachineBuilder[] builders = new KineticMachineBuilder[GTValues.TIER_COUNT];
         for (int tier : tiers) {
             var register = new KineticMachineBuilder(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name, false, tier)

@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * @Author GlodBlock
  * @Description The Output Bus that can directly send its contents to ME storage network.
- * @Date 2023/4/19-20:37
+ * @date 2023/4/19-20:37
  */
 public class MEOutputBusPartMachine extends MEBusPartMachine {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEOutputBusPartMachine.class, MEBusPartMachine.MANAGED_FIELD_HOLDER);

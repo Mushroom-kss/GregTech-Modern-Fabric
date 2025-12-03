@@ -86,7 +86,7 @@ repositories {
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
     maven { url = "https://maven.latvian.dev/releases" } // saps.dev Maven (KubeJS and Rhino)
     //maven { url = "https://maven.cafeteria.dev/releases" } // Fake Player API
-    //maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
+    maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
 }
 
 dependencies {
@@ -214,7 +214,7 @@ components.java {
         skip()
     }
 }
-
+/*
 publishing {
     publications {
         mavenFabric(MavenPublication) {
@@ -245,3 +245,4 @@ publishing {
         }
     }
 }
+*/

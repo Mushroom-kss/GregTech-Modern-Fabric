@@ -37,7 +37,7 @@ import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawStringFixedCorn
 /**
  * @Author GlodBlock
  * @Description A configurable slot for {@link com.lowdragmc.lowdraglib.side.fluid.FluidStack}
- * @Date 2023/4/21-0:50
+ * @date 2023/4/21-0:50
  */
 public class AEFluidConfigSlot extends AEConfigSlot {
     public static final int LOAD_PHANTOM_FLUID_STACK_FROM_NBT = 13;

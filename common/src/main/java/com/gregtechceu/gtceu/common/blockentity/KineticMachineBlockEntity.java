@@ -5,18 +5,21 @@ import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.machine.KineticMachineDefinition;
-import com.jozufozu.flywheel.api.MaterialManager;
-import com.jozufozu.flywheel.backend.instancing.blockentity.BlockEntityInstance;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.syncdata.managed.MultiManagedStorage;
 import com.simibubi.create.content.kinetics.KineticNetwork;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticEffectHandler;
-import com.simibubi.create.foundation.utility.Lang;
+import com.simibubi.create.foundation.utility.CreateLang;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import dev.engine_room.flywheel.api.visual.BlockEntityVisual;
+import dev.engine_room.flywheel.api.visualization.VisualizationContext;
+
 import lombok.Getter;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -56,7 +59,7 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
     }
 
     @ExpectPlatform
-    public static void onBlockEntityRegister(BlockEntityType blockEntityType, NonNullSupplier<BiFunction<MaterialManager, KineticMachineBlockEntity, BlockEntityInstance<? super KineticMachineBlockEntity>>> instanceFactory, boolean renderNormally) {
+    public static void onBlockEntityRegister(BlockEntityType blockEntityType, NonNullSupplier<BiFunction<VisualizationContext, KineticMachineBlockEntity, BlockEntityVisual<? super KineticMachineBlockEntity>>> instanceFactory, boolean renderNormally) {
         throw new AssertionError();
     }
 
@@ -185,8 +188,8 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
         boolean added = super.addToGoggleTooltip(tooltip, isPlayerSneaking);
         float stressBase = this.calculateAddedStressCapacity();
         if (stressBase != 0.0F && IRotate.StressImpact.isEnabled()) {
-            Lang.translate("gui.goggles.generator_stats").forGoggles(tooltip);
-            Lang.translate("tooltip.capacityProvided").style(ChatFormatting.GRAY).forGoggles(tooltip);
+            CreateLang.translate("gui.goggles.generator_stats").forGoggles(tooltip);
+            CreateLang.translate("tooltip.capacityProvided").style(ChatFormatting.GRAY).forGoggles(tooltip);
             float speed = this.getTheoreticalSpeed();
             if (speed != this.getGeneratedSpeed() && speed != 0.0F) {
                 stressBase *= this.getGeneratedSpeed() / speed;
@@ -194,7 +197,7 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
 
             speed = Math.abs(speed);
             float stressTotal = stressBase * speed;
-            Lang.number(stressTotal).translate("generic.unit.stress").style(ChatFormatting.AQUA).space().add(Lang.translate("gui.goggles.at_current_speed").style(ChatFormatting.DARK_GRAY)).forGoggles(tooltip, 1);
+            CreateLang.number(stressTotal).translate("generic.unit.stress").style(ChatFormatting.AQUA).space().add(CreateLang.translate("gui.goggles.at_current_speed").style(ChatFormatting.DARK_GRAY)).forGoggles(tooltip, 1);
             added = true;
         }
 

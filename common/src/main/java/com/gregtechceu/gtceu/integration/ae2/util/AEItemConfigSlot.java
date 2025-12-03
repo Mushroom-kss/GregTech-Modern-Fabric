@@ -26,7 +26,7 @@ import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawStringFixedCorn
 /**
  * @Author GlodBlock
  * @Description A configurable slot for {@link ItemStack}
- * @Date 2023/4/22-0:48
+ * @date 2023/4/22-0:48
  */
 public class AEItemConfigSlot extends AEConfigSlot {
 

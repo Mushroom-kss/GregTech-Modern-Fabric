@@ -1,14 +1,16 @@
 package com.gregtechceu.gtceu.client.renderer.machine;
 
 import com.gregtechceu.gtceu.common.blockentity.KineticMachineBlockEntity;
-import com.jozufozu.flywheel.backend.Backend;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
-import com.simibubi.create.foundation.render.CachedBufferer;
-import com.simibubi.create.foundation.render.SuperByteBuffer;
+
+import dev.engine_room.flywheel.impl.BackendManagerImpl;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.createmod.catnip.render.CachedBuffers;
+import net.createmod.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -48,7 +50,7 @@ public interface IKineticMachineRenderer extends IRenderer {
 
     @Environment(EnvType.CLIENT)
     default void renderSafe(KineticMachineBlockEntity te, float partialTicks, PoseStack ms, MultiBufferSource bufferSource, int light, int overlay) {
-            if (Backend.canUseInstancing(te.getLevel())) return;
+            if (BackendManagerImpl.isBackendOn()) return;
             BlockState state = getRenderedBlockState(te);
             RenderType type = getRenderType(te, state);
             if (type != null) {
@@ -63,7 +65,7 @@ public interface IKineticMachineRenderer extends IRenderer {
 
     @Environment(EnvType.CLIENT)
     default SuperByteBuffer getRotatedModel(KineticMachineBlockEntity te, BlockState state) {
-        return CachedBufferer.block(KineticBlockEntityRenderer.KINETIC_BLOCK, state);
+        return CachedBuffers.block(KineticBlockEntityRenderer.KINETIC_BLOCK, state);
     }
 
 

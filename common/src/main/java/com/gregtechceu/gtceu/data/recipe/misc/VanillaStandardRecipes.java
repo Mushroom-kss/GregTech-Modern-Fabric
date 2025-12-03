@@ -43,7 +43,7 @@ public class VanillaStandardRecipes {
                 .outputItems(new ItemStack(Blocks.STONE))
                 .save(provider);
 
-        //todo autogenerate 2x2 recipes?
+        //TODO autogenerate 2x2 recipes?
         COMPRESSOR_RECIPES.recipeBuilder("sandstone").duration(300).EUt(2)
                 .inputItems(new ItemStack(Blocks.SAND, 4))
                 .outputItems(new ItemStack(Blocks.SANDSTONE))

@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.mojang.datafixers.util.Pair;
 import com.simibubi.create.infrastructure.gametest.CreateTestFunction;
 import com.simibubi.create.infrastructure.gametest.tests.*;
-import io.github.fabricators_of_create.porting_lib.gametest.infrastructure.ExtendedTestFunction;
+//import io.github.fabricators_of_create.porting_lib.gametest.infrastructure.ExtendedTestFunction;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestGenerator;
 import net.minecraft.gametest.framework.GameTestRegistry;

@@ -22,14 +22,18 @@ import com.gregtechceu.gtceu.common.machine.KineticMachineDefinition;
 import com.gregtechceu.gtceu.common.machine.kinetic.ElectricGearBoxMachine;
 import com.gregtechceu.gtceu.common.machine.kinetic.SimpleKineticElectricWorkableMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.KineticPartMachine;
-import com.jozufozu.flywheel.api.MaterialManager;
-import com.jozufozu.flywheel.backend.instancing.blockentity.BlockEntityInstance;
-import com.simibubi.create.content.kinetics.BlockStressValues;
-import com.simibubi.create.foundation.utility.Couple;
+import com.simibubi.create.api.stress.BlockStressValues;
+//import com.simibubi.create.foundation.utility.Couple;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+
+//import com.jozufozu.flywheel.backend.instancing.blockentity.BlockEntityInstance; TODO update it
+import dev.engine_room.flywheel.api.visual.BlockEntityVisual;
+import dev.engine_room.flywheel.api.visualization.VisualizationContext;
+import net.createmod.catnip.data.Couple;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
@@ -107,38 +111,38 @@ public class GTCreateMachines {
     }
 
     public static MachineBuilder<KineticMachineDefinition> registerMachines(String name, Function<ResourceLocation, KineticMachineDefinition> definitionFactory, Function<IMachineBlockEntity, MetaMachine> factory,
-                                                                            @Nullable NonNullSupplier<BiFunction<MaterialManager, KineticMachineBlockEntity, BlockEntityInstance<? super KineticMachineBlockEntity>>> instanceFactory,
-                                                                            boolean renderNormally) {
+        @Nullable NonNullSupplier<BiFunction<VisualizationContext, KineticMachineBlockEntity, BlockEntityVisual<? super KineticMachineBlockEntity>>> instanceFactory,
+        boolean renderNormally) {
         return REGISTRATE.machine(name, definitionFactory, factory, KineticMachineBlock::new, MetaMachineItem::new, KineticMachineBlockEntity::create)
                 .hasTESR(instanceFactory != null)
                 .onBlockEntityRegister(type -> KineticMachineBlockEntity.onBlockEntityRegister(type, instanceFactory, renderNormally));
     }
 
     public static KineticMachineDefinition[] registerTieredMachines(String name,
-                                                                    BiFunction<Integer, ResourceLocation, KineticMachineDefinition> definitionFactory,
-                                                                    BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-                                                                    BiFunction<Integer, MachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
-                                                                    @Nullable NonNullSupplier<BiFunction<MaterialManager, KineticMachineBlockEntity, BlockEntityInstance<? super KineticMachineBlockEntity>>> instanceFactory,
-                                                                    boolean renderNormally,
-                                                                    int... tiers) {
+        BiFunction<Integer, ResourceLocation, KineticMachineDefinition> definitionFactory,
+        BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
+        BiFunction<Integer, MachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
+        @Nullable NonNullSupplier<BiFunction<VisualizationContext, KineticMachineBlockEntity, BlockEntityVisual<? super KineticMachineBlockEntity>>> instanceFactory,
+        boolean renderNormally,
+        int... tiers) {
         KineticMachineDefinition[] definitions = new KineticMachineDefinition[GTValues.TIER_COUNT];
         for (int tier : tiers) {
             var register = REGISTRATE.machine(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,
-                            id -> definitionFactory.apply(tier, id),
-                            holder -> factory.apply(holder, tier),
-                            KineticMachineBlock::new,
-                            MetaMachineItem::new,
-                            KineticMachineBlockEntity::create)
-                    .tier(tier)
-                    .hasTESR(instanceFactory != null)
-                    .onBlockEntityRegister(type -> KineticMachineBlockEntity.onBlockEntityRegister(type, instanceFactory, renderNormally));
+                id -> definitionFactory.apply(tier, id),
+                holder -> factory.apply(holder, tier),
+                KineticMachineBlock::new,
+                MetaMachineItem::new,
+                KineticMachineBlockEntity::create)
+                .tier(tier)
+                .hasTESR(instanceFactory != null)
+                .onBlockEntityRegister(type -> KineticMachineBlockEntity.onBlockEntityRegister(type, instanceFactory, renderNormally));
             definitions[tier] = builder.apply(tier, register);
         }
         return definitions;
     }
 
     public static void init() {
-        BlockStressValues.registerProvider(GTCEu.MOD_ID, new BlockStressValues.IStressValueProvider() {
+        /*BlockStressValues.registerProvider(GTCEu.MOD_ID, new BlockStressValues.IStressValueProvider() {
             @Override
             public double getImpact(Block block) {
                 if (block instanceof IMachineBlock machineBlock && machineBlock.getDefinition() instanceof KineticMachineDefinition definition) {
@@ -180,6 +184,6 @@ public class GTCreateMachines {
             public Couple<Integer> getGeneratedRPM(Block block) {
                 return null;
             }
-        });
+        });*/
     }
 }

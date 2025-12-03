@@ -83,7 +83,7 @@ public class SecondDegreeMaterials {
                         .temperature(4000)
                         .customStill())
                 .color(0xfff94d, false).secondaryColor(0xff330c).iconSet(FINE)
-                .flags(NO_SMELTING, MORTAR_GRINDABLE, DECOMPOSITION_BY_CENTRIFUGING) //todo burning flag
+                .flags(NO_SMELTING, MORTAR_GRINDABLE, DECOMPOSITION_BY_CENTRIFUGING) //TODO burning flag
                 .components(DarkAsh, 1, Sulfur, 1)
                 .buildAndRegister();
 

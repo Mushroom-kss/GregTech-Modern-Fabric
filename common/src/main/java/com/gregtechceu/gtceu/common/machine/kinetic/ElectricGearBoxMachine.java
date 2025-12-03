@@ -60,12 +60,12 @@ public class ElectricGearBoxMachine extends TieredEnergyMachine implements IKine
         NotifiableEnergyContainer container;
         if (isEnergyEmitter()) {
             container = NotifiableEnergyContainer.emitterContainer(this, tierVoltage * 64L, tierVoltage, amps);
-            container.setSideOutputCondition(dir -> dir.getAxis() != getRotationFacing().getAxis());
+            container.setSideOutputCondition(dir -> dir != null ? dir.getAxis() != getRotationFacing().getAxis() : false);
         } else {
             container = NotifiableEnergyContainer.receiverContainer(this, tierVoltage * 64L, tierVoltage, amps);
-            container.setSideInputCondition(dir -> dir.getAxis() != getRotationFacing().getAxis());
+            container.setSideInputCondition(dir -> dir != null ? dir.getAxis() != getRotationFacing().getAxis() : false);
         }
-        container.setCapabilityValidator(dir -> dir.getAxis() != getRotationFacing().getAxis());
+        container.setCapabilityValidator(dir -> dir != null ? dir.getAxis() != getRotationFacing().getAxis() : false);
         return container;
     }
 

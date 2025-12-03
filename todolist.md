@@ -1,4 +1,5 @@
 # TODO
 
-- 1.repair the wires overlay hitbox issue
-- 2.add fluid pourable
+- repair create addon recipe issue
+- repair the wires overlay hitbox issue
+- add fluid pourable

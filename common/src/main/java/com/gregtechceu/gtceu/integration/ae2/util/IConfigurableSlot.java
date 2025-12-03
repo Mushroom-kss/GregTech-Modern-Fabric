@@ -6,7 +6,7 @@ import lombok.val;
 /**
  * @Author GlodBlock
  * @Description A slot that can be set to keep requesting.
- * @Date 2023/4/21-0:34
+ * @date 2023/4/21-0:34
  */
 public interface IConfigurableSlot {
 

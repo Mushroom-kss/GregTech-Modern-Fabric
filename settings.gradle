@@ -21,8 +21,8 @@ dependencyResolutionManagement {
         def jeiVersion = "15.2.0.27"
         def reiVersion = "12.0.684"
         def emiVersion = "1.0.30"
-        def ae2Version = "15.0.18"
-        def kjsVersion = "2001.6.4-build.120"
+        def ae2Version = "15.4.10"
+        def kjsVersion = "2001.6.5-build.20"
         def auVersion = "1.20.1-0.6.0"
 
         // Fabric
@@ -32,7 +32,6 @@ dependencyResolutionManagement {
         def createBuildVersion = "1716"
         def lazyDfuVersion = "0.1.3"
         def modMenuVersion = "7.1.0"
-//        def topFabricVersion = "1.19-6.0.0"
         def jadeFabricVersion = "11.7.0"
         def registrateFabricVersion = "1.3.62-MC1.20.1"
         def forgeConfigApiVersion = "8.0.0"
@@ -44,19 +43,18 @@ dependencyResolutionManagement {
         def forgeVersion = "47.1.3"
         def registrateForgeVersion = "MC1.20-1.3.3"
         def createForgeVersion = "6.0.7-287"
-        def flywheelForgeVersion = "0.6.9-5"
+        def flywheelForgeVersion = "1.0.5-264"
         def topForgeVersion = "1.20.1-10.0.1-3"
         def jadeForgeVersion = "11.6.3"
         def worldStripperForgeFile = "4578579"
 
         // Libs
-        def quiltMappingsVersion = "5"  // https://lambdaurora.dev/tools/import_quilt.html
+        def quiltMappingsVersion = "23"
         def parchmentVersion = "2023.09.03" // https://parchmentmc.org/docs/getting-started
         def shadowVersion = "7.1.2"
         def architecturyPluginVersion = "3.4-SNAPSHOT"
-        def architecturyLoomVersion = "1.9-SNAPSHOT"
-        def vineFlowerVersion = "1.+"
-        def macheteVersion = "1.+"
+        def architecturyLoomVersion = "1.10-SNAPSHOT"
+        //def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
         def ldLibVersion = "1.0.42"
         def mixinextrasVersion = "0.2.0"
@@ -158,7 +156,7 @@ dependencyResolutionManagement {
             library("createForge", "com.simibubi.create", "create-${minecraftVersion}").versionRef(createForge)
 
             def flywheel = version("flywheel", flywheelForgeVersion)
-            library("flywheel", "com.jozufozu.flywheel", "flywheel-forge-${minecraftVersion}").versionRef(flywheel)
+            library("flywheel", "dev.engine-room.flywheel", "flywheel-forge-${minecraftVersion}").versionRef(flywheel)
 
             def jei = version("jei", jeiVersion)
             library("jei-common-api", "mezz.jei", "jei-${minecraftVersion}-common-api").versionRef(jei)
@@ -214,11 +212,8 @@ dependencyResolutionManagement {
             def architecturyLoom = version("architectury-loom", architecturyLoomVersion)
             plugin("architectury-loom", "dev.architectury.loom").versionRef(architecturyLoom)
 
-            def vineFlower = version("vineFlower", vineFlowerVersion)
-            plugin("vineFlower", "io.github.juuxel.loom-vineflower").versionRef(vineFlower)
-
-            def machete = version("machete", macheteVersion)
-            plugin("machete", "io.github.p03w.machete").versionRef(machete)
+            //def machete = version("machete", macheteVersion)
+            //plugin("machete", "io.github.p03w.machete").versionRef(machete)
         }
     }
 }

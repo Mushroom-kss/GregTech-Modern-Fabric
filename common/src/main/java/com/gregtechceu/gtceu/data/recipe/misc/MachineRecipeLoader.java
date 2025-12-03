@@ -268,7 +268,7 @@ public class MachineRecipeLoader {
                 .chancedOutput(ChemicalHelper.get(gem, Quartzite), 1000, 1000)
                 .duration(1200).EUt(24).save(provider);
 
-        //todo find UU-Matter replacement
+        //TODO find UU-Matter replacement
 //        AUTOCLAVE_RECIPES.recipeBuilder()
 //            .inputItems(dust, NetherStar)
 //            .inputFluids(UUMatter.getFluid(576))

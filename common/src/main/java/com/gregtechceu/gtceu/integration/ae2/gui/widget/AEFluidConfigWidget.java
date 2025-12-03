@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.integration.ae2.util.IConfigurableSlot;
 /**
  * @Author GlodBlock
  * @Description Display {@link com.lowdragmc.lowdraglib.side.fluid.FluidStack} config
- * @Date 2023/4/21-1:45
+ * @date 2023/4/21-1:45
  */
 public class AEFluidConfigWidget extends AEConfigWidget {
 

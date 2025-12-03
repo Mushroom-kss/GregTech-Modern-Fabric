@@ -25,7 +25,7 @@ import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawGradientRect;
 /**
  * @Author GlodBlock
  * @Description A configurable slot
- * @Date 2023/4/22-0:30
+ * @date 2023/4/22-0:30
  */
 public class AEConfigSlot extends Widget implements IGhostIngredientTarget {
 
