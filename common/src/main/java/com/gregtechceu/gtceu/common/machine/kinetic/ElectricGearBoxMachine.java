@@ -31,7 +31,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ElectricGearBoxMachine extends TieredEnergyMachine implements IKineticMachine, IFancyUIMachine {
+public class ElectricGearBoxMachine extends TieredEnergyMachine{// implements IKineticMachine, IFancyUIMachine { TODO fix it
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ElectricGearBoxMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
     public final int maxAmps;
     @Getter
@@ -60,18 +60,18 @@ public class ElectricGearBoxMachine extends TieredEnergyMachine implements IKine
         NotifiableEnergyContainer container;
         if (isEnergyEmitter()) {
             container = NotifiableEnergyContainer.emitterContainer(this, tierVoltage * 64L, tierVoltage, amps);
-            container.setSideOutputCondition(dir -> dir != null ? dir.getAxis() != getRotationFacing().getAxis() : false);
+            //container.setSideOutputCondition(dir -> dir != null ? dir.getAxis() != getRotationFacing().getAxis() : false);
         } else {
             container = NotifiableEnergyContainer.receiverContainer(this, tierVoltage * 64L, tierVoltage, amps);
-            container.setSideInputCondition(dir -> dir != null ? dir.getAxis() != getRotationFacing().getAxis() : false);
+            //container.setSideInputCondition(dir -> dir != null ? dir.getAxis() != getRotationFacing().getAxis() : false);
         }
-        container.setCapabilityValidator(dir -> dir != null ? dir.getAxis() != getRotationFacing().getAxis() : false);
+        //container.setCapabilityValidator(dir -> dir != null ? dir.getAxis() != getRotationFacing().getAxis() : false);
         return container;
     }
 
     @Override
     protected boolean isEnergyEmitter() {
-        return !getKineticDefinition().isSource();
+        return false; //!getKineticDefinition().isSource();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class ElectricGearBoxMachine extends TieredEnergyMachine implements IKine
     @Override
     public void onLoad() {
         super.onLoad();
-        subscribeServerTick(this::outputRotation);
+        //subscribeServerTick(this::outputRotation);
     }
 
     @Override
@@ -98,12 +98,12 @@ public class ElectricGearBoxMachine extends TieredEnergyMachine implements IKine
         super.onRotated(oldFacing, newFacing);
         if (!isRemote()) {
             if (oldFacing.getAxis() != newFacing.getAxis()) {
-                var holder = getKineticHolder();
+                /*var holder = getKineticHolder();
                 if (holder.hasNetwork()) {
                     holder.getOrCreateNetwork().remove(holder);
                 }
                 holder.detachKinetics();
-                holder.removeSource();
+                holder.removeSource();*/
             }
         }
     }
@@ -113,7 +113,7 @@ public class ElectricGearBoxMachine extends TieredEnergyMachine implements IKine
     //////////////////////////////////////
 
 
-    @Override
+    /*@Override
     public float getRotationSpeedModifier(Direction direction) {
         if (direction == getRotationFacing().getOpposite())
             return -1;
@@ -162,6 +162,6 @@ public class ElectricGearBoxMachine extends TieredEnergyMachine implements IKine
     @Override
     public boolean hasPlayerInventory() {
         return false;
-    }
+    }*/
 
 }

@@ -21,7 +21,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class SimpleKineticElectricWorkableMachine extends SimpleTieredMachine implements IKineticMachine {
+public class SimpleKineticElectricWorkableMachine extends SimpleTieredMachine implements IKineticMachine { // TODO fix it, or not?
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SimpleKineticElectricWorkableMachine.class, SimpleTieredMachine.MANAGED_FIELD_HOLDER);
 
     @Getter

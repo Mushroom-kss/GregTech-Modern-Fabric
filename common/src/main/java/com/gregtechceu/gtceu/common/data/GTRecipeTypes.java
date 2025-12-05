@@ -13,7 +13,7 @@ import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.sound.ExistingSoundEntry;
-import com.gregtechceu.gtceu.common.recipe.RPMCondition;
+//import com.gregtechceu.gtceu.common.recipe.RPMCondition; TODO remember fix it
 import com.gregtechceu.gtceu.common.recipe.RockBreakerCondition;
 import com.gregtechceu.gtceu.data.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
@@ -565,7 +565,7 @@ public class GTRecipeTypes {
     public static void init() {
         GCyMRecipeTypes.init();
         if (GTCEu.isCreateLoaded()) {
-            CREATE_MIXER_RECIPES = register("create_mixer", KINETIC).setMaxIOSize(6, 1, 2, 1).setEUIO(IO.IN)
+            /*CREATE_MIXER_RECIPES = register("create_mixer", KINETIC).setMaxIOSize(6, 1, 2, 1).setEUIO(IO.IN)
                 .setSlotOverlay(false, false, GuiTextures.DUST_OVERLAY)
                 .setSlotOverlay(true, false, GuiTextures.DUST_OVERLAY)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_MIXER, LEFT_TO_RIGHT)
@@ -584,7 +584,7 @@ public class GTRecipeTypes {
                     .duration(Math.max((builder.duration / 2), 1))
                     .rpm(64)
                     .save(provider);
-            });
+            });TODO remember fix it*/
         }
         if (GTCEu.isKubeJSLoaded()) {
             GTRegistryObjectBuilderTypes.registerFor(GTRegistries.RECIPE_TYPES.getRegistryName());

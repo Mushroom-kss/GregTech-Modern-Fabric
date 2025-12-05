@@ -2,7 +2,7 @@ import net.fabricmc.loom.task.RemapJarTask
 plugins {
     alias libs.plugins.architectury
     alias libs.plugins.architectury.loom apply false
-    //alias libs.plugins.vineFlower apply false // VineFlower, a better decompiler
+    //alias libs.plugins.vineFlower apply false  VineFlower, a better decompiler
     //alias libs.plugins.machete  automatic jar compressing on build
 }
 

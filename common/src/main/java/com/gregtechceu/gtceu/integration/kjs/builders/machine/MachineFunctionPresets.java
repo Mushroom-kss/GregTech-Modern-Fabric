@@ -66,10 +66,7 @@ public class MachineFunctionPresets {
         return copy;
     }
 
-    public static <D extends MachineDefinition, B extends MachineBuilder<D>> MachineBuilder<D> builder(String name, B[] builders, Class<B> builderClass,
-                                                                                                       Function<ResourceLocation, D> definitionFactory,
-                                                                                                       BiFunction<BlockBehaviour.Properties, D, IMachineBlock> blockFactory,
-                                                                                                       TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+    public static <D extends MachineDefinition, B extends MachineBuilder<D>> MachineBuilder<D> builder(String name, B[] builders, Class<B> builderClass, Function<ResourceLocation, D> definitionFactory, BiFunction<BlockBehaviour.Properties, D, IMachineBlock> blockFactory, TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
         return new MachineBuilder<D>(GTRegistries.REGISTRATE, name, definitionFactory, holder -> null, blockFactory, MetaMachineItem::new, blockEntityFactory) {
             public MachineBuilder<D> renderer(@Nullable Supplier<IRenderer> renderer) {
                 for (var builder : builders) {
@@ -381,6 +378,7 @@ public class MachineFunctionPresets {
                 return this;
             }
 
+            // TODO what is this?
             // reflect the tankScalingFunction method because I'm a little bitch teehee (and because it's not a common method, but in both SimpleMachineBuilder and KineticMachineBuilder, which can't inherit from each other)
             // does nothing if not found, or errors otherwise
             public MachineBuilder<D> tankScalingFunction(Function<Object, Double> tankScalingFunction) {
@@ -443,7 +441,7 @@ public class MachineFunctionPresets {
                 if (KineticMachineBuilder.class.isAssignableFrom(builderClass)) {
                     for (var builder : builders) {
                         if (builder == null) continue;
-                        ((KineticMachineBuilder) builder).isSource(isSource);
+                        //((KineticMachineBuilder) builder).isSource(isSource); TODO fix it
                     }
                 }
                 return this;

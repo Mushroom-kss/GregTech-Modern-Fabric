@@ -4,9 +4,7 @@ import com.gregtechceu.gtceu.api.block.BlockProperties;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.common.blockentity.KineticMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.KineticMachineDefinition;
-import com.gregtechceu.gtceu.common.machine.kinetic.IKineticMachine;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -33,9 +31,9 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
 
     @Override
     public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
-        if (MetaMachine.getMachine(world, pos) instanceof IKineticMachine kineticMachine) {
-            return kineticMachine.hasShaftTowards(face);
-        }
+        /*if (MetaMachine.getMachine(world, pos) instanceof IKineticMachine kineticMachine) {
+            return kineticMachine.hasShaftTowards(face); TODO fix it
+        }*/
         return false;
     }
 
@@ -103,18 +101,18 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
                     if (pState.getValue(BlockProperties.SERVER_TICK) && pTile instanceof IMachineBlockEntity metaMachine) {
                         metaMachine.getMetaMachine().serverTick();
                     }
-                    if (pTile instanceof KineticMachineBlockEntity kineticMachineBlockEntity) {
+                    /*if (pTile instanceof KineticMachineBlockEntity kineticMachineBlockEntity) {
                         kineticMachineBlockEntity.tick();
-                    }
+                    }*/
                 };
             } else  {
                 return (pLevel, pPos, pState, pTile) -> {
                     if (pTile instanceof IMachineBlockEntity metaMachine) {
                         metaMachine.getMetaMachine().clientTick();
                     }
-                    if (pTile instanceof KineticMachineBlockEntity kineticMachineBlockEntity) {
+                    /*if (pTile instanceof KineticMachineBlockEntity kineticMachineBlockEntity) {
                         kineticMachineBlockEntity.tick();
-                    }
+                    }*/
                 };
             }
         }

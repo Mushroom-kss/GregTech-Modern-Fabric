@@ -10,7 +10,7 @@ import net.minecraft.core.Direction;
  * @date 2023/3/31
  * @implNote IKineticMachine
  */
-public interface IKineticMachine extends IMachineFeature {
+public interface IKineticMachine extends IMachineFeature { // TODO fix it, or not?
     default KineticMachineBlockEntity getKineticHolder() {
         return (KineticMachineBlockEntity)self().getHolder();
     }

@@ -532,13 +532,13 @@ public class GTRecipeBuilder {
         return posY(min, max, false);
     }
 
-    public GTRecipeBuilder rpm(float rpm, boolean reverse) {
-        return addCondition(new RPMCondition(rpm).setReverse(reverse));
+    /*public GTRecipeBuilder rpm(float rpm, boolean reverse) {
+        return addCondition(new RPMCondition(rpm).setReverse(reverse)); TODO remember fix it
     }
 
     public GTRecipeBuilder rpm(float rpm) {
         return rpm(rpm, false);
-    }
+    }*/
 
     public void toJson(JsonObject json) {
         json.addProperty("type", recipeType.registryName.toString());

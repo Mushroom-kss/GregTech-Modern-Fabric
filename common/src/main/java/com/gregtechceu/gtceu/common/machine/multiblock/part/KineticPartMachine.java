@@ -23,7 +23,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class KineticPartMachine extends TieredIOPartMachine implements IKineticMachine {
+public class KineticPartMachine extends TieredIOPartMachine implements IKineticMachine { // TODO fix it or not?
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(KineticPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     @Getter

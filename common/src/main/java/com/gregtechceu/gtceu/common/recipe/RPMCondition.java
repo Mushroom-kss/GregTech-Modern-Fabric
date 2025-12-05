@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
-import com.gregtechceu.gtceu.common.machine.kinetic.IKineticMachine;
+//import com.gregtechceu.gtceu.common.machine.kinetic.IKineticMachine;
 import lombok.NoArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -45,16 +45,16 @@ public class RPMCondition extends RecipeCondition {
 
     @Override
     public boolean test(@Nonnull GTRecipe recipe, @Nonnull RecipeLogic recipeLogic) {
-        if (recipeLogic.machine instanceof IKineticMachine kineticMachine && Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm) {
+        /*if (recipeLogic.machine instanceof IKineticMachine kineticMachine && Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm) {
             return true;
-        }
+        } TODO fix it
         if (recipeLogic.machine instanceof IMultiController controller) {
             for (IMultiPart part : controller.getParts()) {
                 if (part instanceof IKineticMachine kineticMachine && Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm) {
                     return true;
                 }
             }
-        }
+        }*/
         return false;
     }
 

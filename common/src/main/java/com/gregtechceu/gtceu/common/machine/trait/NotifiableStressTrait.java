@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.ICapabilityTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.common.machine.kinetic.IKineticMachine;
+//import com.gregtechceu.gtceu.common.machine.kinetic.IKineticMachine;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +35,7 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
     @Getter
     public final IO capabilityIO;
     private float available, lastSpeed;
+    // TODO fix it
 
     public NotifiableStressTrait(MetaMachine machine, IO handlerIO, IO capabilityIO) {
         super(machine);
@@ -46,7 +47,7 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
     @Override
     public void onMachineLoad() {
         super.onMachineLoad();
-        if (machine instanceof IKineticMachine kineticMachine) {
+        /*if (machine instanceof IKineticMachine kineticMachine) {
             machine.subscribeServerTick(() -> {
                 var speed = kineticMachine.getKineticHolder().getSpeed();
                 if (speed != lastSpeed) {
@@ -54,12 +55,12 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
                     notifyListeners();
                 }
             });
-        }
+        }*/
     }
 
     @Override
     public List<Float> handleRecipeInner(IO io, GTRecipe recipe, List<Float> left, @Nullable String slotName, boolean simulate) {
-        if (machine instanceof IKineticMachine kineticMachine) {
+        /*if (machine instanceof IKineticMachine kineticMachine) {
             float sum = left.stream().reduce(0f, Float::sum);
             var kineticDefinition = kineticMachine.getKineticDefinition();
             if (io == IO.IN && !kineticDefinition.isSource()) {
@@ -74,28 +75,28 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
                 sum = sum - available;
             }
             return sum <= 0 ? null : Collections.singletonList(sum);
-        }
+        }*/
         return left;
     }
 
     @Override
     public void preWorking(IRecipeCapabilityHolder holder, IO io, GTRecipe recipe) {
-        if (machine instanceof IKineticMachine kineticMachine) {
+        /*if (machine instanceof IKineticMachine kineticMachine) {
             var kineticDefinition = kineticMachine.getKineticDefinition();
             if (available > 0 && kineticDefinition.isSource() && io == IO.OUT) {
                 kineticMachine.getKineticHolder().scheduleWorking(available, false);
             }
-        }
+        }*/
     }
 
     @Override
     public void postWorking(IRecipeCapabilityHolder holder, IO io, GTRecipe recipe) {
-        if (machine instanceof IKineticMachine kineticMachine) {
+        /*if (machine instanceof IKineticMachine kineticMachine) {
             var kineticDefinition = kineticMachine.getKineticDefinition();
             if (kineticDefinition.isSource() && io == IO.OUT) {
                 kineticMachine.getKineticHolder().stopWorking();
             }
-        }
+        }*/
     }
 
     @Override
