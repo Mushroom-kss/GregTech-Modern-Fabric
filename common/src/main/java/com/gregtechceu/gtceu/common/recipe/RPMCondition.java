@@ -47,7 +47,7 @@ public class RPMCondition extends RecipeCondition {
     public boolean test(@Nonnull GTRecipe recipe, @Nonnull RecipeLogic recipeLogic) {
         /*if (recipeLogic.machine instanceof IKineticMachine kineticMachine && Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm) {
             return true;
-        } TODO fix it
+        } TODO remember fix it
         if (recipeLogic.machine instanceof IMultiController controller) {
             for (IMultiPart part : controller.getParts()) {
                 if (part instanceof IKineticMachine kineticMachine && Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm) {

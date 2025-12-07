@@ -1,4 +1,4 @@
-package com.gregtechceu.gtceu.client.instance;
+package com.gregtechceu.gtceu.client.visual;
 
 import com.gregtechceu.gtceu.common.blockentity.KineticMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.kinetic.IKineticMachine;
@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.common.machine.kinetic.IKineticMachine;
  * @date 2023/4/1
  * @implNote SplitShaftInstance
  */
-public class SplitShaftInstance {//extends KineticBlockEntityVisual<KineticMachineBlockEntity> { TODO fix it
+public class SplitShaftVisual {//extends KineticBlockEntityVisual<KineticMachineBlockEntity> { TODO remember fix it
 
     
 

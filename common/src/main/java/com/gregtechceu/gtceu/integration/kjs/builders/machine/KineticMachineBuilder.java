@@ -32,6 +32,6 @@ import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
  */
 public class KineticMachineBuilder{// extends MachineBuilder<KineticMachineDefinition> {
 
-    // TODO: fix it
+    // TODO: remember fix it
 
 }

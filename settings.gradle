@@ -26,7 +26,7 @@ dependencyResolutionManagement {
         def auVersion = "1.20.1-0.6.0"
 
         // Fabric
-        def fabricLoaderVersion = "0.15.11" // https://fabricmc.net/develop/
+        def fabricLoaderVersion = "0.18.1" // https://fabricmc.net/develop/
         def fabricApiVersion = "0.92.2" // https://fabricmc.net/develop/
         def createVersion = "6.0.7.0"
         def createBuildVersion = "1716"
@@ -103,8 +103,10 @@ dependencyResolutionManagement {
 
             def forgeConfigApi = version("forgeConfigApi", forgeConfigApiVersion)
             library("forgeConfigApi", "fuzs.forgeconfigapiport", "forgeconfigapiport-fabric").versionRef(forgeConfigApi)
+
             def nightConfigCore = version("nightConfigCore", nightConfigVersion)
             library("nightConfigCore", "com.electronwill.night-config", "core").versionRef(nightConfigCore)
+
             def nightConfigToml = version("nightConfigToml", nightConfigVersion)
             library("nightConfigToml", "com.electronwill.night-config", "toml").versionRef(nightConfigToml)
 

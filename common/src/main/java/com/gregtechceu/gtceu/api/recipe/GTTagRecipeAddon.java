@@ -11,39 +11,32 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
-public class GTRecipeAddon implements FinishedRecipe{
-
-    /**
-     * @author Mushroom-net
-     * @date 2025/9/23
-     * @implNote add recipe for given modID.
-     */
-
+public class GTTagRecipeAddon implements FinishedRecipe {
     protected String RecipeModId = "gtceu";
     protected String RecipeType = ""; //necessary
     protected int InputAmount = 0; //necessary
-    protected String InputModId  = "gtceu";
+    protected String InputTagId  = "c";
     protected Material InputMaterial = null;
     protected String InputType = ""; //necessary
     protected int OutputAmount = 0; //necessary
-    protected String OutputModId = "gtceu";
+    protected String OutputTagId = "c";
     protected Material OutputMaterial = null;
     protected String OutputType = ""; //necessary
 
-    public GTRecipeAddon(@Nonnull String RecipeModId, @Nonnull String RecipeType, int InputAmount, String InputModId, Material InputMaterial, @Nonnull String InputType, int OutputAmount, String OutputModId, Material OutputMaterial, @Nonnull String OutputType) {
+    public GTTagRecipeAddon(@Nonnull String RecipeModId, @Nonnull String RecipeType, int InputAmount, String InputTagId, Material InputMaterial, @Nonnull String InputType, int OutputAmount, String OutputTagId, Material OutputMaterial, @Nonnull String OutputType) {
         if (RecipeModId != "" || RecipeModId !=null) {
             this.RecipeModId = RecipeModId;
         }
         this.RecipeType = RecipeType;
         this.InputAmount = InputAmount;
-        if(InputModId != "" || InputModId != null) {
-            this.InputModId = InputModId;
+        if(InputTagId != "" || InputTagId != null) {
+            this.InputTagId = InputTagId;
         }
         this.InputMaterial = InputMaterial;
         this.InputType = InputType;
         this.OutputAmount = OutputAmount;
-        if(OutputModId != "" || OutputModId != null) {
-            this.OutputModId = OutputModId;
+        if(OutputTagId != "" || OutputTagId != null) {
+            this.OutputTagId = OutputTagId;
         }
         this.OutputMaterial = OutputMaterial;
         this.OutputType = OutputType;
@@ -55,14 +48,14 @@ public class GTRecipeAddon implements FinishedRecipe{
         
         JsonArray ingredients = new JsonArray();
         JsonObject TypeIngredient = new JsonObject();
-        TypeIngredient.addProperty("item", InputModId + ":" + (InputMaterial == null ? "" : (InputMaterial.getName() + "_")) + InputType);
+        TypeIngredient.addProperty("item", InputTagId + ":" + (InputMaterial == null ? "" : (InputMaterial.getName() + "_")) + InputType);
         TypeIngredient.addProperty("count", InputAmount);
         ingredients.add(TypeIngredient);
         
         json.add("ingredients", ingredients);
         JsonArray results = new JsonArray();
         JsonObject result = new JsonObject();
-        result.addProperty("item", OutputModId + ":" + (OutputMaterial == null ? "" : (OutputMaterial.getName() + "_")) + OutputType);
+        result.addProperty("item", OutputTagId + ":" + (OutputMaterial == null ? "" : (OutputMaterial.getName() + "_")) + OutputType);
         result.addProperty("count", OutputAmount);
         results.add(result);
         json.add("results", results);

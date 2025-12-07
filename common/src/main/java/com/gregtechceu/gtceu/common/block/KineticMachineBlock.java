@@ -32,7 +32,7 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     @Override
     public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
         /*if (MetaMachine.getMachine(world, pos) instanceof IKineticMachine kineticMachine) {
-            return kineticMachine.hasShaftTowards(face); TODO fix it
+            return kineticMachine.hasShaftTowards(face); TODO rmemeber fix it
         }*/
         return false;
     }

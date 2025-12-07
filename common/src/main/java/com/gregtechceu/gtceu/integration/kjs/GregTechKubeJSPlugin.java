@@ -95,7 +95,7 @@ public class GregTechKubeJSPlugin extends KubeJSPlugin {
         GTRegistryObjectBuilderTypes.MACHINE.addType("generator", GeneratorBuilder.class, (id, args) -> GeneratorBuilder.createAll(id.getPath(), args), false);
         GTRegistryObjectBuilderTypes.MACHINE.addType("multiblock", CustomMultiblockBuilder.class, (id, args) -> CustomMultiblockBuilder.createMultiblock(id.getPath(), args), false);
         GTRegistryObjectBuilderTypes.MACHINE.addType("primitive", CustomMultiblockBuilder.class, (id, args) -> CustomMultiblockBuilder.createPrimitiveMultiblock(id.getPath(), args), false);
-        //GTRegistryObjectBuilderTypes.MACHINE.addType("kinetic", KineticMachineBuilder.class, (id, args) -> KineticMachineBuilder.createAll(id.getPath(), args), false); TODO fix it
+        //GTRegistryObjectBuilderTypes.MACHINE.addType("kinetic", KineticMachineBuilder.class, (id, args) -> KineticMachineBuilder.createAll(id.getPath(), args), false); TODO remember fix it
 
         GTRegistryObjectBuilderTypes.WORLD_GEN_LAYER.addType("basic", WorldGenLayerBuilder.class, WorldGenLayerBuilder::new, true);
 

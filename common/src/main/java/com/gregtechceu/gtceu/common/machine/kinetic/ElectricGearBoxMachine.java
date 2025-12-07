@@ -31,7 +31,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ElectricGearBoxMachine extends TieredEnergyMachine{// implements IKineticMachine, IFancyUIMachine { TODO fix it
+public class ElectricGearBoxMachine extends TieredEnergyMachine{// implements IKineticMachine, IFancyUIMachine { TODO remember fix it
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ElectricGearBoxMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
     public final int maxAmps;
     @Getter

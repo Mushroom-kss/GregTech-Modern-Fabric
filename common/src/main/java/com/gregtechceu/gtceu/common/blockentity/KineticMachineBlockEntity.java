@@ -40,7 +40,7 @@ import java.util.function.BiFunction;
  * @date 2023/3/31
  * @implNote CreateKineticSourceBlockEntity
  */
-public class KineticMachineBlockEntity extends KineticBlockEntity implements IMachineBlockEntity {
+public class KineticMachineBlockEntity extends KineticBlockEntity implements IMachineBlockEntity { // TODO remember refactor it
     public final MultiManagedStorage managedStorage = new MultiManagedStorage();
     @Getter
     public final MetaMachine metaMachine;

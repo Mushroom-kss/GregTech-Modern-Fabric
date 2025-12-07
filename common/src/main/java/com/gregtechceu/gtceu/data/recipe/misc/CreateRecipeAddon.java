@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeAddon;
+import com.gregtechceu.gtceu.api.recipe.GTTagRecipeAddon;
 import com.lowdragmc.lowdraglib.LDLib;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -27,10 +27,10 @@ public class CreateRecipeAddon {
                 break;
             }
             if (LDLib.isModLoaded(GTValues.MODID_CREATE) && material.hasProperty(PropertyKey.INGOT) && material.hasFlag(MaterialFlags.GENERATE_PLATE) && material.getName() != null && !material.getName().isEmpty()) {
-                provider.accept(new GTRecipeAddon("create", "pressing", 1, "gtceu", material, "ingot", 1, "gtceu", material, "plate"));
+                provider.accept(new GTTagRecipeAddon("create", "pressing", 1, "c", material, "ingot", 1, "c", material, "plate"));
             }
             if (LDLib.isModLoaded(GTValues.MODID_CREATE_ADDITION) && material.hasProperty(PropertyKey.INGOT) && material.hasFlag(MaterialFlags.GENERATE_ROD) && material.getName() != null && !material.getName().isEmpty()) {
-                provider.accept(new GTRecipeAddon("createaddition", "rolling", 1, "gtceu", material, "ingot", 2, "gtceu", material, "rod"));
+                provider.accept(new GTTagRecipeAddon("createaddition", "rolling", 1, "c", material, "ingot", 2, "c", material, "rod"));
             }
         }
     }

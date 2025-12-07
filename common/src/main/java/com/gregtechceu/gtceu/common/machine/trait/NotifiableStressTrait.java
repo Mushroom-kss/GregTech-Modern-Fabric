@@ -35,7 +35,7 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
     @Getter
     public final IO capabilityIO;
     private float available, lastSpeed;
-    // TODO fix it
+    // TODO remember fix it
 
     public NotifiableStressTrait(MetaMachine machine, IO handlerIO, IO capabilityIO) {
         super(machine);

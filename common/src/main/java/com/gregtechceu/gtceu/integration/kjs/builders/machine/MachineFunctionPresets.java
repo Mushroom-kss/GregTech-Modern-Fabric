@@ -441,7 +441,7 @@ public class MachineFunctionPresets {
                 if (KineticMachineBuilder.class.isAssignableFrom(builderClass)) {
                     for (var builder : builders) {
                         if (builder == null) continue;
-                        //((KineticMachineBuilder) builder).isSource(isSource); TODO fix it
+                        //((KineticMachineBuilder) builder).isSource(isSource); TODO remember fix it
                     }
                 }
                 return this;
