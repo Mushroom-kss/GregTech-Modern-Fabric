@@ -1,0 +1,65 @@
+{
+	"schemaVersion": 1,
+	"id": "${mod_id}",
+	"version": "${version}",
+	"name": "${mod_name}",
+	"description": "${mod_description}",
+	"authors": [
+		"KilaBash",
+		"screret",
+		"serenibyss",
+		"Tech22",
+		"MushroomNet"
+	],
+	"contact": {
+		"homepage": "${mod_url}",
+		"sources": "${mod_url}"
+	},
+	"license": "${mod_license}",
+	"icon": "assets/${mod_id}/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.gregtechceu.gtceu.GTCEu"
+		],
+		"client": [
+			"com.gregtechceu.gtceu.client.ClientProxy"
+		],
+		"top_plugin": [
+			"com.gregtechceu.gtceu.integration.top.TheOneProbePlugin"
+		],
+		"rei_client": [
+			"com.gregtechceu.gtceu.integration.rei.GTREIPlugin"
+		],
+		"jei_mod_plugin": [
+			"com.gregtechceu.gtceu.integration.jei.GTJEIPlugin"
+		],
+		"ldlib_pugin": [
+			"com.gregtechceu.gtceu.integration.ldlib.GTLDLibPlugin"
+		],
+		"fabric-datagen": [
+			"com.gregtechceu.gtceu.data.GregTechDatagen"
+		],
+		"fabric-gametest": [
+			"com.gregtechceu.gtceu.test.GTGameTests"
+		],
+		"emi": [
+			"com.gregtechceu.gtceu.integration.emi.GTEMIPlugin"
+		],
+		"jade": [
+			"com.gregtechceu.gtceu.integration.jade.GTJadePlugin"
+		]
+	},
+	"mixins": [
+		"${mod_id}.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.1",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
