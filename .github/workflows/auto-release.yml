@@ -85,9 +85,9 @@ jobs:
           echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
           
           # 从构建产物中提取实际版本号
-          JAR=$(ls build/libs/gtceu-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
+          JAR=$(ls build/libs/GregTech-CEU-Modern-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
           
-          VERSION=$(basename "$JAR" | sed -E 's/gtceu-(.*)\.jar/\1/')
+          VERSION=$(basename "$JAR" | sed -E 's/GregTech-CEU-Modern-(.*)\.jar/\1/')
           
           # 提取并验证Minecraft版本 - 关键修复开始
           MINECRAFT_VERSION=$(echo "$VERSION" | awk -F'-' '{print $1}')
@@ -183,7 +183,7 @@ jobs:
             **Build SHA:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})  
             
             ### Assets
-            - gtceu-${{ steps.var.outputs.version }}.jar
+            - GregTech-CEU-Modern-${{ steps.var.outputs.version }}.jar
             
             ### Changelog
             [View full changelog](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
@@ -194,8 +194,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/gtceu-${{ steps.var.outputs.version }}.jar
-          asset_name: gtceu-${{ steps.var.outputs.version }}.jar
+          asset_path: build/libs/GregTech-CEU-Modern-${{ steps.var.outputs.version }}.jar
+          asset_name: GregTech-CEU-Modern-${{ steps.var.outputs.version }}.jar
           asset_content_type: application/java-archive
 
       - name: Upload Sources Asset
@@ -204,8 +204,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/gtceu-${{ steps.var.outputs.version }}-sources.jar
-          asset_name: gtceu-${{ steps.var.outputs.version }}-sources.jar
+          asset_path: build/libs/GregTech-CEU-Modern-${{ steps.var.outputs.version }}-sources.jar
+          asset_name: GregTech-CEU-Modern-${{ steps.var.outputs.version }}-sources.jar
           asset_content_type: application/java-archive
 
       - name: mc-publish

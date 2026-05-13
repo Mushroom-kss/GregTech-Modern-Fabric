@@ -14,7 +14,7 @@ mod_url = project.mod_url
 version = project.mod_version
 
 base {
-	archivesName = "${mod_name}-${libs.versions.minecraft.get()}"
+	archivesName = "${mod_name}-CEU-Modern-${libs.versions.minecraft.get()}"
 }
 
 repositories {
