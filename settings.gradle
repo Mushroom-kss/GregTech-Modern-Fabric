@@ -1,11 +1,9 @@
 pluginManagement {
-    repositories {
-        maven { url = "https://maven.fabricmc.net/" }
-        maven { url = "https://maven.architectury.dev/" }
-        maven { url = "https://maven.minecraftforge.net/" }
-        maven { url = "https://maven.quiltmc.org/repository/release" }
-        gradlePluginPortal()
-    }
+	repositories {
+		maven { url = "https://maven.fabricmc.net/" }
+		mavenCentral()
+		gradlePluginPortal()
+	}
 }
 
 dependencyResolutionManagement {
@@ -40,11 +38,10 @@ dependencyResolutionManagement {
         def worldStripperFabricFile = "4578576"
 
         // Libs
+        //def yarnVersion = "10"
         def quiltMappingsVersion = "23"
         def parchmentVersion = "2023.09.03" // https://parchmentmc.org/docs/getting-started
         def shadowVersion = "7.1.2"
-        def architecturyPluginVersion = "3.4-SNAPSHOT"
-        def architecturyLoomVersion = "1.10-SNAPSHOT"
         //def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
         def ldLibVersion = "1.0.42"
@@ -141,22 +138,11 @@ dependencyResolutionManagement {
             def shadow = version("shadow", shadowVersion)
             plugin("shadow", "com.github.johnrengelman.shadow").versionRef(shadow)
 
-            def architecturyPlugin = version("architectury", architecturyPluginVersion)
-            plugin("architectury", "architectury-plugin").versionRef(architecturyPlugin)
-
-            def architecturyLoom = version("architectury-loom", architecturyLoomVersion)
-            plugin("architectury-loom", "dev.architectury.loom").versionRef(architecturyLoom)
+            //def yarn = version("yarn", yarnVersion)
+            //library("yarn", "net.fabricmc", "yarn").versionRef(yarn)
 
             //def machete = version("machete", macheteVersion)
             //plugin("machete", "io.github.p03w.machete").versionRef(machete)
         }
     }
 }
-
-include("${mod_id}-common")
-include("${mod_id}-fabric")
-
-project(":${mod_id}-common").setProjectDir(new File("common"))
-project(":${mod_id}-fabric").setProjectDir(new File("fabric"))
-
-rootProject.name = "${mod_name}"

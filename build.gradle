@@ -1,137 +1,294 @@
-import net.fabricmc.loom.task.RemapJarTask
 plugins {
-    alias libs.plugins.architectury
-    alias libs.plugins.architectury.loom apply false
-    //alias libs.plugins.vineFlower apply false  VineFlower, a better decompiler
-    //alias libs.plugins.machete  automatic jar compressing on build
+	id 'fabric-loom' version "${loom_version}"
+	id 'maven-publish'
+	id "java"
 }
 
-def is_root_project = (project == rootProject)
 
-architectury {
-    minecraft = libs.versions.minecraft
+group = project.maven_group
+mod_description = project.mod_description
+mod_id = project.mod_id
+mod_license = project.mod_license
+mod_name = project.mod_name
+mod_url = project.mod_url
+version = project.mod_version
+
+base {
+	archivesName = "${mod_name}-${libs.versions.minecraft.get()}"
 }
 
-subprojects {
-    apply plugin: "dev.architectury.loom"
-
-    loom {
-        silentMojangMappingsLicense()
-//        for (final def setting in runConfigs) {
-//            setting.vmArgs()
-//        }
+repositories {
+	// Add repositories to retrieve artifacts from in here.
+	// You should only use this when depending on other mods because
+	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
+	// for more information about repositories.
+	
+	mavenLocal()
+	mavenCentral()
+	maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
+	maven { url = "https://maven.createmod.net/"} // Crete, Flywheel
+	maven { url = "https://api.modrinth.com/maven" } // LazyDFU, Jade
+	maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu, EMI
+	maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
+	maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
+	maven { // Curse Forge File
+		url = "https://cursemaven.com"
+		content {
+			includeGroup "curse.maven"
+		}
+	}
+	maven { // JEI
+		name = "Jared's maven"
+		url = "https://maven.blamejared.com/"
+	}
+	maven { // JEI mirror, AE2
+		// location of a maven mirror for JEI files, as a fallback
+		name = "ModMaven"
+		url = "https://modmaven.dev"
+	}
+	maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
+	maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib
+	maven { 
+		url = "https://maven.tterrag.com/"
+		content {
+			// need to be specific here due to version overlaps
+			//includeGroup("dev.engine-room.flywheel")
+			//includeGroup("com.simibubi.create")
+			includeGroup("com.tterrag.registrate")
+		}
+	}
+	maven {
+        name = 'Configuration'
+        url = 'https://api.repsy.io/mvn/toma/public/'
     }
-
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
-        maven { url = "https://maven.createmod.net/"} // Crete, Flywheel
-        maven { url = "https://api.modrinth.com/maven" } // LazyDFU, Jade
-        maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu, EMI
-        maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
-        maven {
-            url "https://cursemaven.com"
-            content {
-                includeGroup "curse.maven"
-            }
-        } // Curse Forge File
-        maven {
-            name = "Jared's maven"
-            url = "https://maven.blamejared.com/"
-        } // JEI
-        maven {
-            // location of a maven mirror for JEI files, as a fallback
-            name = "ModMaven"
-            url = "https://modmaven.dev"
-        } // JEI mirror, AE2
-        maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
-        maven { url = "https://maven.latvian.dev/releases" } // latvian mods
-        maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib
-        maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
-        maven { 
-            url = "https://maven.tterrag.com/"
-            content {
-                // need to be specific here due to version overlaps
-                //includeGroup("dev.engine-room.flywheel")
-                includeGroup("com.tterrag.registrate")
-                //includeGroup("com.simibubi.create")
-            }
-        }
-        maven { // TOP-Fabric
-            url "https://maven.wispforest.io"
-        }
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${libs.versions.minecraft.get()}"
-
-        if (is_root_project) {
-            // layered mappings - Mojmap names, parchment and QM docs and parameters
-            mappings loom.layered {
-                it.mappings("org.quiltmc:quilt-mappings:${libs.versions.minecraft.get()}+build.${libs.versions.quiltMappings.get()}:intermediary-v2")
-                it.officialMojangMappings { nameSyntheticMembers = false }
-                it.parchment("org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip")
-            }
-        }
-
-        // see each subproject for dependencies.
-
-        // lombok
-        compileOnly 'org.projectlombok:lombok:1.18.30'
-        annotationProcessor 'org.projectlombok:lombok:1.18.30'
-
-        implementation 'com.google.code.findbugs:jsr305:3.0.2'
-
-        // tests
-        testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
-        testImplementation 'io.javalin:javalin:5.4.2'
-        testImplementation 'org.mockito:mockito-core:5.2.0'
-    }
-
-    tasks.register('slimJar', org.gradle.jvm.tasks.Jar) {
-        archiveClassifier.set("slim")
-    }
-
-    tasks.register('remapSlimJar', RemapJarTask) {
-        dependsOn(slimJar)
-        inputFile.set(jar.archiveFile)
-        addNestedDependencies = false
-    }
-
-    tasks.remapJar.dependsOn('remapSlimJar')
+	maven { // TOP-Fabric
+		url = "https://maven.wispforest.io"
+	}
+	// mavens for Fabric-exclusives
+    maven { url = "https://maven.createmod.net/" }
+	maven { url = "https://maven.latvian.dev/releases" } // latvian mods
+    maven { url = "https://mvn.devos.one/snapshots/" } // Create, Forge Tags, Milk Lib, Registrate
+    maven { url = "https://mvn.devos.one/releases/" } // Porting Lib
+    maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
+    maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
+	//maven { url = "https://maven.latvian.dev/releases" }  saps.dev Maven (KubeJS and Rhino)
+	maven {
+		// saps.dev Maven (KubeJS and Rhino)
+		url = "https://maven.saps.dev/minecraft"
+		content {
+			includeGroup "dev.latvian.mods"
+		}
+	}
+    //maven { url = "https://maven.cafeteria.dev/releases" } // Fake Player API
+    maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
 }
 
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
+loom {
+	//splitEnvironmentSourceSets()
 
-    //archivesBaseName = "${project.name}-${libs.versions.minecraft.get()}"
-    group = rootProject.maven_group
+	mods {
+		"gtceu" {
+			sourceSet sourceSets.main
+			//sourceSet sourceSets.client
+		}
+	}
 
-    // Formats the mod version to include the loader, Minecraft version, and build number (if present)
-    String buildNumber = System.getenv("GITHUB_ACTION_NUMBER")
-    version = "${mod_version}" + (buildNumber != null ? "-build_${System.getenv("GITHUB_RUN_NUMBER")}" : "")
+    accessWidenerPath = project.file("src/main/resources/${mod_id}.accesswidener")
 
-    repositories {
-        // Add repositories to retrieve artifacts from in here.
-        // You should only use this when depending on other mods because
-        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-        // for more information about repositories.
+    runs {
+        create("dataCommon") {
+            inherit client
+            name("Minecraft Data")
+            property("fabric-api.datagen")
+            property("fabric-api.datagen.modid", "${mod_id}")
+            property("fabric-api.datagen.output-dir", project.file("src/generated/resources").absolutePath)
+            property("fabric-api.datagen.strict-validation")
+			property( 'porting_lib.datagen.existing_resources', project.file('src/main/resources').absolutePath)
+        }
+        client {
+            programArgs("--username", "Player")
+        }
+        create("gameTestServer") {
+            server()
+            name("Minecraft Game Test")
+            source("main")
+            property("fabric-api.gametest", "true")
+            property("fabric-api.gametest.command", "true")
+        }
+
     }
+}
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
+fabricApi {
+	configureDataGeneration {
+		client = true
+	}
+}
+
+dependencies {
+	// To change the versions see the gradle.properties file
+	minecraft "com.mojang:minecraft:${libs.versions.minecraft.get()}"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// layered mappings - Mojmap names, parchment and QM docs and parameters
+	mappings loom.layered {
+		it.mappings("org.quiltmc:quilt-mappings:${libs.versions.minecraft.get()}+build.${libs.versions.quiltMappings.get()}:intermediary-v2")
+		it.officialMojangMappings { nameSyntheticMembers = false }
+		it.parchment("org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip")
+	}
+
+	// see each subproject for dependencies.
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+	implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+	// tests
+	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+	testImplementation 'io.javalin:javalin:5.4.2'
+	testImplementation 'org.mockito:mockito-core:5.2.0'
+	
+    modImplementation fabric.fabricLoader
+    modImplementation fabric.fabricApi
+
+    // LDLib
+    modImplementation(fabric.ldlib.fabric) { transitive = false }
+    include(fabric.ldlib.fabric)
+
+    // Registrate
+    modImplementation(include("com.tterrag.registrate_fabric:Registrate:${fabric.versions.registrate.get()}"))
+
+    // Forge Config Api
+    modImplementation fabric.forgeConfigApi
+    // Night Config
+    modImplementation fabric.nightConfigCore
+    modImplementation fabric.nightConfigToml
+
+    // Create
+    modImplementation fabric.createFabric
+
+    // Development QOL
+    modCompileOnly fabric.lazydfu
+    modCompileOnly fabric.modmenu
+
+    // JEI
+    modCompileOnlyApi(fabric.jei.common.api) { transitive = false }
+    modCompileOnlyApi(fabric.jei.fabric.api) { transitive = false }
+    modCompileOnly(fabric.jei.fabric.impl) { transitive = false }
+
+    // REI
+    modCompileOnly(fabric.rei.plugin) { transitive = false }
+    modCompileOnly(fabric.rei.api) { transitive = false }
+    modCompileOnly(fabric.rei.fabric) { transitive = false }
+
+    // EMI
+    modCompileOnly("dev.emi:emi-fabric:${fabric.versions.emi.get()}:api")
+    modImplementation fabric.emi
+
+    // TOP
+//    modCompileOnly fabric.theoneprobe
+
+    // Jade
+    modImplementation fabric.jade
+
+    // AE2
+    modImplementation(fabric.ae2) { transitive = false }
+
+    //AlmostUnified
+    modImplementation(fabric.almostUnified.fabric)
+
+    // KJS
+    modImplementation fabric.kubejs
+
+    // Mixin Extras
+    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${fabric.versions.mixinextras.get()}")))
+
+    // Configuration
+    modImplementation(fabric.configuration)
+    include(fabric.configuration)
+
+    // Team Reborn Energy
+    modImplementation(fabric.teamRebornEnergy)
+
+    // Shimmer
+    //modImplementation(fabric.shimmer.fabric)
+
+    // Runtime only testing mods
+//    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:8.2.88") {
+//        exclude(group: "net.fabricmc.fabric-api")
+//    }
+//    modRuntimeOnly(fabric.worldStripper)
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand(
+            "version": project.version,
+            "mod_id": mod_id,
+            "mod_name": mod_name,
+            "mod_description": mod_description,
+            "mod_license": mod_license,
+            "mod_url": mod_url
+		)
+	}
+
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 17
+}
+
+java {
+	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+	// if it is present.
+	// If you remove this line, sources will not be generated.
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+	inputs.property "archivesName", project.base.archivesName
+
+	from("LICENSE") {
+		rename { "${it}_${inputs.properties.archivesName}"}
+	}
+}
+/*
+// configure the maven publication
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.archives_base_name
+			from components.java
+		}
+	}
+
+	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+	repositories {
+		// Add repositories to publish to here.
+		// Notice: This block does NOT have the same function as the block in the top level.
+		// The repositories here will be used for publishing your artifact, not for
+		// retrieving dependencies.
+	}
+}*/
+sourceSets {
+    main {
+        resources {
+            srcDir("src/generated/resources")
+            exclude("**/.cache")
+//            srcDirs += [
+//                    forge_project.file("src/generated/resources").absolutePath
+//            ]
+        }
     }
-
-    java {
-        withSourcesJar()
-    }
-
-    /*machete {
-        // disable machete locally for faster builds
-        enabled = false
-    }*/
 }

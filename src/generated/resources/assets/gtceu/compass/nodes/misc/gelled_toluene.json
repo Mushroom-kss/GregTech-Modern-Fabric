@@ -1,0 +1,15 @@
+{
+  "button_texture": {
+    "type": "item",
+    "res": "gtceu:gelled_toluene"
+  },
+  "items": [
+    "gtceu:gelled_toluene"
+  ],
+  "page": "gtceu:misc/gelled_toluene",
+  "position": [
+    -150,
+    100
+  ],
+  "section": "gtceu:misc"
+}

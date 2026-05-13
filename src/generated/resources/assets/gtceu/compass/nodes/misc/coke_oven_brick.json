@@ -1,0 +1,15 @@
+{
+  "button_texture": {
+    "type": "item",
+    "res": "gtceu:coke_oven_brick"
+  },
+  "items": [
+    "gtceu:coke_oven_brick"
+  ],
+  "page": "gtceu:misc/coke_oven_brick",
+  "position": [
+    -150,
+    250
+  ],
+  "section": "gtceu:misc"
+}
