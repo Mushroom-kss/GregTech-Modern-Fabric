@@ -34,7 +34,6 @@ output/
 bin/
 libs/
 
-.github/workflows/auto-build.yml
 .classpath
 */.factorypath
 .project

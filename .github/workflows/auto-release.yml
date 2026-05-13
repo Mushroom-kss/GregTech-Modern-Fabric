@@ -1,0 +1,307 @@
+name: Auto Release on Tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+-*'
+  workflow_dispatch: # allow manual triggering
+    inputs:
+      tag:
+        description: 'Tag to release'
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Determine ref to checkout
+        id: determine_ref
+        run: |
+          if [ -n "${{ github.event.inputs.tag }}" ]; then
+            TAG_NAME="${{ github.event.inputs.tag }}"
+          else
+            TAG_NAME="${GITHUB_REF#refs/tags/}"
+          fi
+          
+          CLEAN_TAG_NAME="${TAG_NAME//refs\//}"
+          CLEAN_TAG_NAME="${CLEAN_TAG_NAME//tags\//}"
+          
+          echo "CLEAN_TAG_NAME=$CLEAN_TAG_NAME" >> $GITHUB_OUTPUT
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
+          
+          echo "BASE_REF=refs/heads/main" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v3.5.0
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4.4.2
+        with:
+          cache-read-only: false
+          #arguments: build
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build
+
+      - name: Verify build outputs
+        run: |
+          echo "Fabric build outputs:"
+          ls -l fabric/build/libs
+          echo "Forge build outputs:"
+          ls -l forge/build/libs
+
+      - name: Get Version
+        id: var
+        run: |
+          # 使用纯净标签名
+          TAG_NAME="${{ steps.determine_ref.outputs.CLEAN_TAG_NAME }}"
+          echo "raw_tag=$TAG_NAME" >> $GITHUB_OUTPUT
+          
+          # 检测是否为预发布版本
+          if [[ $TAG_NAME == *"-"* ]]; then
+            echo "prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "prerelease=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # 提取主版本号
+          BASE_VERSION=$(echo "$TAG_NAME" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+          echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
+          
+          # 从构建产物中提取实际版本号
+          FABRIC_JAR=$(ls fabric/build/libs/gtceu-fabric-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
+          FORGE_JAR=$(ls forge/build/libs/gtceu-forge-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
+          
+          if [ ! -f "$FABRIC_JAR" ]; then
+            echo "::error::Fabric jar not found: $FABRIC_JAR"
+            exit 1
+          fi
+          
+          if [ ! -f "$FORGE_JAR" ]; then
+            echo "::error::Forge jar not found: $FORGE_JAR"
+            exit 1
+          fi
+          
+          FABRIC_VERSION=$(basename "$FABRIC_JAR" | sed -E 's/gtceu-fabric-(.*)\.jar/\1/')
+          FORGE_VERSION=$(basename "$FORGE_JAR" | sed -E 's/gtceu-forge-(.*)\.jar/\1/')
+          
+          # 提取并验证Minecraft版本 - 关键修复开始
+          MINECRAFT_VERSION=$(echo "$FABRIC_VERSION" | awk -F'-' '{print $1}')
+          
+          # 确保版本格式为 X.X.X
+          if [[ "$MINECRAFT_VERSION" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            # 将 1.20 转换为 1.20.0
+            MINECRAFT_VERSION="${MINECRAFT_VERSION}.0"
+            echo "::warning::Converted Minecraft version to $MINECRAFT_VERSION"
+          elif [[ ! "$MINECRAFT_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid Minecraft version format: $MINECRAFT_VERSION"
+            exit 1
+          fi
+          
+          echo "minecraft_version=$MINECRAFT_VERSION" >> $GITHUB_OUTPUT
+          # 关键修复结束
+
+          # 输出文件路径和版本号到工作流变量
+          echo "fabric_jar=$FABRIC_JAR" >> $GITHUB_OUTPUT
+          echo "forge_jar=$FORGE_JAR" >> $GITHUB_OUTPUT
+          echo "fabric_version=$FABRIC_VERSION" >> $GITHUB_OUTPUT
+          echo "forge_version=$FORGE_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Debug Minecraft version
+        run: |
+          echo "Minecraft version: ${{ steps.var.outputs.minecraft_version }}"
+          echo "Full Fabric version: ${{ steps.var.outputs.fabric_version }}"
+          echo "Full Forge version: ${{ steps.var.outputs.forge_version }}"
+          
+          # 验证版本格式
+          if [[ ! "${{ steps.var.outputs.minecraft_version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid Minecraft version format!"
+            exit 1
+          fi
+          
+      # 在创建 Release 前添加这些步骤
+      - name: Validate tag format
+        run: |
+          TAG="${{ steps.var.outputs.raw_tag }}"
+          echo "Validating tag: $TAG"
+          
+          # 基本格式检查
+          if [[ "$TAG" =~ ^refs/ ]]; then
+            echo "::error::Invalid tag format: $TAG (must not start with 'refs/')"
+            exit 1
+          fi
+          
+          # 语义化版本检查
+          if [[ ! "$TAG" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9_\.-]+)?$ ]]; then
+            echo "::error::Invalid tag format: $TAG (must be semantic version)"
+            exit 1
+          fi
+          
+          echo "Tag format is valid"
+
+      - name: Ensure tag exists
+        run: |
+          # 获取纯净标签名
+          TAG="${{ steps.var.outputs.raw_tag }}"
+          
+          # 检查标签是否存在
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists"
+          else
+            echo "Creating tag $TAG"
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+            git tag "$TAG"
+            git push origin "$TAG"
+            echo "Tag $TAG created and pushed"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Debug tag info
+        run: |
+          echo "Tag: ${{ steps.var.outputs.raw_tag }}"
+          echo "Commit SHA: $(git rev-parse HEAD)"
+          git show-ref --tags
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.var.outputs.raw_tag }}
+          release_name: GregTechCEu ${{ steps.var.outputs.base_version }}
+          draft: false
+          prerelease: ${{ steps.var.outputs.prerelease }}
+          body: |
+            ## GregTechCEu ${{ steps.var.outputs.base_version }}
+            
+            **Minecraft version:** ${{ steps.var.outputs.minecraft_version }}  
+            **Release type:** ${{ steps.var.outputs.prerelease == 'true' && 'Pre-release' || 'Stable' }}  
+            **Build SHA:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})  
+            
+            ### Assets
+            - Fabric: gtceu-fabric-${{ steps.var.outputs.fabric_version }}.jar
+            - Forge: gtceu-forge-${{ steps.var.outputs.forge_version }}.jar
+            
+            ### Changelog
+            [View full changelog](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
+
+      - name: Upload Fabric Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: fabric/build/libs/gtceu-fabric-${{ steps.var.outputs.fabric_version }}.jar
+          asset_name: gtceu-fabric-${{ steps.var.outputs.fabric_version }}.jar
+          asset_content_type: application/java-archive
+
+      - name: Upload Forge Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: forge/build/libs/gtceu-forge-${{ steps.var.outputs.forge_version }}.jar
+          asset_name: gtceu-forge-${{ steps.var.outputs.forge_version }}.jar
+          asset_content_type: application/java-archive
+
+      - name: Upload Fabric Sources Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: fabric/build/libs/gtceu-fabric-${{ steps.var.outputs.fabric_version }}-sources.jar
+          asset_name: gtceu-fabric-${{ steps.var.outputs.fabric_version }}-sources.jar
+          asset_content_type: application/java-archive
+
+      - name: Upload Forge Sources Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: forge/build/libs/gtceu-forge-${{ steps.var.outputs.forge_version }}-sources.jar
+          asset_name: gtceu-forge-${{ steps.var.outputs.forge_version }}-sources.jar
+          asset_content_type: application/java-archive
+
+      - name: mc-publish-fabric
+        uses: Kir-Antipov/mc-publish@v3.3.0  # 升级到最新版本
+        with:
+          modrinth-id: h7rokZqo
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          files: |
+            ${{ steps.var.outputs.fabric_jar }}
+          name: GregTechCEu ${{ steps.var.outputs.base_version }}-fabric
+          version: ${{ steps.var.outputs.fabric_version }}
+          version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
+          # 使用直接指定的变更日志而不是文件
+          changelog: |
+            Automated release for ${{ steps.var.outputs.raw_tag }}
+            Minecraft version: ${{ steps.var.outputs.minecraft_version }}
+          loaders: |
+            fabric
+          # 确保游戏版本格式正确 - 关键修复
+          game-versions: |
+            ${{ steps.var.outputs.minecraft_version }}
+          game-version-filter: none
+          java: |
+            17
+          retry-attempts: 2
+          retry-delay: 10000
+          fail-mode: fail
+        env:
+          MODRINTH_DEBUG: true  # 启用详细调试
+        continue-on-error: ${{ github.event_name != 'workflow_dispatch' }}
+        if: ${{ steps.var.outputs.minecraft_version != '' }}
+
+      - name: mc-publish-forge
+        uses: Kir-Antipov/mc-publish@v3.3.0  # 升级到最新版本
+        with:
+          modrinth-id: h7rokZqo
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          files: |
+            ${{ steps.var.outputs.forge_jar }}
+          name: GregTechCEu ${{ steps.var.outputs.base_version }}-forge
+          version: ${{ steps.var.outputs.forge_version }}
+          version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
+          # 使用直接指定的变更日志而不是文件
+          changelog: |
+            Automated release for ${{ steps.var.outputs.raw_tag }}
+            Minecraft version: ${{ steps.var.outputs.minecraft_version }}
+          loaders: |
+            forge
+          # 确保游戏版本格式正确 - 关键修复
+          game-versions: |
+            ${{ steps.var.outputs.minecraft_version }}
+          game-version-filter: none
+          java: |
+            17
+          retry-attempts: 2
+          retry-delay: 10000
+          fail-mode: fail
+        env:
+          MODRINTH_DEBUG: true  # 启用详细调试
+        continue-on-error: ${{ github.event_name != 'workflow_dispatch' }}
+        if: ${{ steps.var.outputs.minecraft_version != '' }}
