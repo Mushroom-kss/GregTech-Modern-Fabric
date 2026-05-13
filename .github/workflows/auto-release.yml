@@ -85,7 +85,7 @@ jobs:
           echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
           
           # 从构建产物中提取实际版本号
-          JAR=$(ls fabric/build/libs/gtceu-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
+          JAR=$(ls build/libs/gtceu-*.jar | grep -v sources | grep -v slim | grep -v shadow | head -1)
           
           VERSION=$(basename "$JAR" | sed -E 's/gtceu-(.*)\.jar/\1/')
           
@@ -183,40 +183,40 @@ jobs:
             **Build SHA:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})  
             
             ### Assets
-            - Fabric: gtceu-${{ steps.var.outputs.fabric_version }}.jar
+            - gtceu-${{ steps.var.outputs.version }}.jar
             
             ### Changelog
             [View full changelog](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
 
-      - name: Upload Fabric Release Asset
+      - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: fabric/build/libs/gtceu-fabric-${{ steps.var.outputs.fabric_version }}.jar
-          asset_name: gtceu-fabric-${{ steps.var.outputs.fabric_version }}.jar
+          asset_path: build/libs/gtceu-${{ steps.var.outputs.version }}.jar
+          asset_name: gtceu-${{ steps.var.outputs.version }}.jar
           asset_content_type: application/java-archive
 
-      - name: Upload Fabric Sources Asset
+      - name: Upload Sources Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: fabric/build/libs/gtceu-fabric-${{ steps.var.outputs.fabric_version }}-sources.jar
-          asset_name: gtceu-fabric-${{ steps.var.outputs.fabric_version }}-sources.jar
+          asset_path: build/libs/gtceu-${{ steps.var.outputs.version }}-sources.jar
+          asset_name: gtceu-${{ steps.var.outputs.version }}-sources.jar
           asset_content_type: application/java-archive
 
-      - name: mc-publish-fabric
+      - name: mc-publish
         uses: Kir-Antipov/mc-publish@v3.3.0  # 升级到最新版本
         with:
           modrinth-id: h7rokZqo
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           files: |
-            ${{ steps.var.outputs.fabric_jar }}
+            ${{ steps.var.outputs.jar }}
           name: GregTechCEu ${{ steps.var.outputs.base_version }}-fabric
-          version: ${{ steps.var.outputs.fabric_version }}
+          version: ${{ steps.var.outputs.version }}
           version-type: ${{ steps.var.outputs.prerelease == 'true' && 'beta' || 'release' }}
           # 使用直接指定的变更日志而不是文件
           changelog: |
