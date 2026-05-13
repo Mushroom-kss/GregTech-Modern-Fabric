@@ -63,10 +63,8 @@ jobs:
 
       - name: Verify build outputs
         run: |
-          echo "Fabric build outputs:"
-          ls -l fabric/build/libs
-          echo "Forge build outputs:"
-          ls -l forge/build/libs
+          echo "build outputs:"
+          ls -l build/libs
 
       - name: Get Version
         id: var
