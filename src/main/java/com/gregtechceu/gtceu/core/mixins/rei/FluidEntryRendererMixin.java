@@ -1,7 +1,7 @@
 package com.gregtechceu.gtceu.core.mixins.rei;
 
 import com.gregtechceu.gtceu.client.TooltipsHandler;
-import dev.architectury.fluid.FluidStack;
+import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
 import me.shedaniel.rei.api.client.gui.widgets.TooltipContext;
 import me.shedaniel.rei.api.common.entry.EntryStack;

@@ -44,7 +44,7 @@ public class MaterialBlockItem extends BlockItem implements IItemRendererProvide
     @Override
     @Nonnull
     public MaterialBlock getBlock() {
-        return (MaterialBlock)this.getBlock();
+        return (MaterialBlock) super.getBlock();
     }
 
     @Environment(EnvType.CLIENT)

@@ -104,6 +104,7 @@ loom {
             property("fabric-api.datagen.modid", "${mod_id}")
             property("fabric-api.datagen.output-dir", project.file("src/generated/resources").absolutePath)
             property("fabric-api.datagen.strict-validation")
+			property( 'porting_lib.datagen.existing_resources', project.file('src/main/resources').absolutePath)
         }
         client {
             programArgs("--username", "Player")
@@ -112,7 +113,6 @@ loom {
             server()
             name("Minecraft Game Test")
             source("main")
-
             property("fabric-api.gametest", "true")
             property("fabric-api.gametest.command", "true")
         }

@@ -50,3 +50,4 @@ classes/
 
 #todolist.txt
 crash*.txt
+.cache

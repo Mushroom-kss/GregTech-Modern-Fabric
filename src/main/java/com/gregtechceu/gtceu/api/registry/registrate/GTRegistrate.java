@@ -86,12 +86,7 @@ public class GTRegistrate extends Registrate {
         return this.entry(name, callback -> new GTFluidBuilder<>(this, this, material, name, langKey, callback, stillTexture, flowingTexture).defaultLang().defaultSource().setData(ProviderType.LANG, NonNullBiConsumer.noop()));
     }
 
-    public <DEFINITION extends MachineDefinition> MachineBuilder<DEFINITION> machine(String name,
-                                                                                     Function<ResourceLocation, DEFINITION> definitionFactory,
-                                                                                     Function<IMachineBlockEntity, MetaMachine> metaMachine,
-                                                                                     BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
-                                                                                     BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-                                                                                     TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+    public <DEFINITION extends MachineDefinition> MachineBuilder<DEFINITION> machine(String name, Function<ResourceLocation, DEFINITION> definitionFactory, Function<IMachineBlockEntity, MetaMachine> metaMachine, BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory, BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory, TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
         return MachineBuilder.create(this, name, definitionFactory, metaMachine, blockFactory, itemFactory, blockEntityFactory);
     }
 

@@ -1,0 +1,15 @@
+{
+  "button_texture": {
+    "type": "item",
+    "res": "gtceu:firebrick"
+  },
+  "items": [
+    "gtceu:firebrick"
+  ],
+  "page": "gtceu:misc/firebrick",
+  "position": [
+    -200,
+    250
+  ],
+  "section": "gtceu:misc"
+}

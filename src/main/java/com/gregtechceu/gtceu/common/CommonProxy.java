@@ -19,6 +19,9 @@ import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 
 public class CommonProxy {
 
+    // 添加标志位防止重复初始化
+    private static boolean initialized = false;
+
     /**
      * If kjs is loaded, make sure our mod is loaded after it. {@link com.gregtechceu.gtceu.core.mixins.kjs.KubeJSMixin}
      */
@@ -27,12 +30,16 @@ public class CommonProxy {
     }
 
     public static void init() {
-        if (!GTCEu.isKubeJSLoaded()) {
-            doinit();
-        }
+        doinit();
     }
 
     public static void doinit() {
+        // 防止重复初始化
+        if (initialized) {
+            return;
+        }
+        initialized = true;
+        
         GTCEu.LOGGER.info("GTCEu common proxy init!");
         ConfigHolder.init();
         GTCEu.initializeHighTier();

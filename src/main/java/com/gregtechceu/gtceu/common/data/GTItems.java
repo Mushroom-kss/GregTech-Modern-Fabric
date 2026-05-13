@@ -1,6 +1,5 @@
 package com.gregtechceu.gtceu.common.data;
 
-import com.google.common.collect.ArrayTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
@@ -107,8 +106,7 @@ public class GTItems {
 
     public static void generateMaterialItems() {
         REGISTRATE.creativeModeTab(() -> MATERIAL_ITEM);
-        ImmutableTable.Builder<TagPrefix, Material, ItemEntry<TagPrefixItem>> builder = ImmutableTable
-                .builder();
+        ImmutableTable.Builder<TagPrefix, Material, ItemEntry<TagPrefixItem>> builder = ImmutableTable.builder();
         for (var tagPrefix : TagPrefix.values()) {
             if (tagPrefix.doGenerateItem()) {
                 for (Material material : GTRegistries.MATERIALS) {
@@ -2318,29 +2316,8 @@ public class GTItems {
                     new ProspectorScannerBehavior(2, GTValues.V[GTValues.LV] / 16L,
                             ProspectorMode.ORE)))
             .register();
-    public static ItemEntry<ComponentItem> PROSPECTOR_HV = REGISTRATE.item("prospector.hv", ComponentItem::create)
-            .lang("Advanced Prospector (HV)")
-            .properties(p -> p.stacksTo(1))
-            .onRegister(compassNodeExist(GTCompassSections.ITEMS, "prospector"))
-            .onRegister(attach(ElectricStats.createElectricItem(1_600_000L, GTValues.HV),
-                    new ProspectorScannerBehavior(3, GTValues.V[GTValues.HV] / 16L,
-                            ProspectorMode.ORE, ProspectorMode.FLUID,
-                            ConfigHolder.INSTANCE.machines.doBedrockOres
-                                    ? ProspectorMode.BEDROCK_ORE
-                                    : null)))
-            .register();
-    public static ItemEntry<ComponentItem> PROSPECTOR_LUV = REGISTRATE.item("prospector.luv", ComponentItem::create)
-            .lang("Super Prospector (LuV)")
-            .properties(p -> p.stacksTo(1))
-            .onRegister(compassNodeExist(GTCompassSections.ITEMS, "prospector"))
-            .onRegister(attach(ElectricStats.createElectricItem(1_000_000_000L, GTValues.LuV),
-                    new ProspectorScannerBehavior(5, GTValues.V[GTValues.LuV] / 16L,
-                            ProspectorMode.ORE,
-                            ProspectorMode.FLUID,
-                            ConfigHolder.INSTANCE.machines.doBedrockOres
-                                    ? ProspectorMode.BEDROCK_ORE
-                                    : null)))
-            .register();
+    public static ItemEntry<ComponentItem> PROSPECTOR_HV;
+    public static ItemEntry<ComponentItem> PROSPECTOR_LUV;
 
     public static ItemEntry<Item> TRICORDER_SCANNER;
     public static ItemEntry<Item> DEBUG_SCANNER;
@@ -2777,6 +2754,31 @@ public class GTItems {
                         new MaterialStack(GTMaterials.Tritanium, GTValues.M * 2),
                         new MaterialStack(GTMaterials.SamariumMagnetic, GTValues.M / 2))))
                 .register();
+
+        PROSPECTOR_HV = REGISTRATE.item("prospector.hv", ComponentItem::create)
+                .lang("Advanced Prospector (HV)")
+                .properties(p -> p.stacksTo(1))
+                .onRegister(compassNodeExist(GTCompassSections.ITEMS, "prospector"))
+                .onRegister(attach(ElectricStats.createElectricItem(1_600_000L, GTValues.HV),
+                        new ProspectorScannerBehavior(3, GTValues.V[GTValues.HV] / 16L,
+                                ProspectorMode.ORE, ProspectorMode.FLUID,
+                                ConfigHolder.INSTANCE.machines.doBedrockOres
+                                        ? ProspectorMode.BEDROCK_ORE
+                                        : null)))
+                .register();
+        PROSPECTOR_LUV = REGISTRATE.item("prospector.luv", ComponentItem::create)
+                .lang("Super Prospector (LuV)")
+                .properties(p -> p.stacksTo(1))
+                .onRegister(compassNodeExist(GTCompassSections.ITEMS, "prospector"))
+                .onRegister(attach(ElectricStats.createElectricItem(1_000_000_000L, GTValues.LuV),
+                        new ProspectorScannerBehavior(5, GTValues.V[GTValues.LuV] / 16L,
+                                ProspectorMode.ORE,
+                                ProspectorMode.FLUID,
+                                ConfigHolder.INSTANCE.machines.doBedrockOres
+                                        ? ProspectorMode.BEDROCK_ORE
+                                        : null)))
+                .register();
+
     }
 
     public static <T extends ItemLike> NonNullConsumer<T> compassNode(CompassSection section,

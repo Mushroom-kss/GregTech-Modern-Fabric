@@ -18,14 +18,25 @@ import java.util.function.Supplier;
  */
 public class CTMModelRenderer extends IModelRenderer {
     public static Supplier<Boolean> LOW_PRECISION = Suppliers.memoize(GTCEu::isSodiumRubidiumEmbeddiumLoaded);
+    
+    // 控制是否启用动态重烘焙，默认为false以提升性能
+    private final boolean enableReBake;
+    
     public CTMModelRenderer(ResourceLocation modelLocation) {
+        this(modelLocation, false);
+    }
+    
+    public CTMModelRenderer(ResourceLocation modelLocation, boolean enableReBake) {
         super(modelLocation);
+        this.enableReBake = enableReBake;
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public boolean reBakeCustomQuads() {
-        return true;
+        // 默认禁用重烘焙以提升性能
+        // 只有在明确需要动态纹理更新时才启用
+        return enableReBake;
     }
 
     @Override

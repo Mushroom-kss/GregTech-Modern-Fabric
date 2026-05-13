@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.gui.compass.GTCompassUIConfig;
 import com.gregtechceu.gtceu.api.gui.compass.GTRecipeViewCreator;
 import com.gregtechceu.gtceu.api.gui.compass.MultiblockAction;
 import com.gregtechceu.gtceu.client.renderer.BlockHighLightRenderer;
+import com.gregtechceu.gtceu.client.renderer.machine.MachineRenderer;
 import com.lowdragmc.lowdraglib.gui.compass.CompassManager;
 import com.lowdragmc.lowdraglib.gui.compass.component.RecipeComponent;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -31,6 +32,9 @@ import java.util.List;
 @Environment(EnvType.CLIENT)
 public class ClientProxy implements ClientModInitializer {
 
+    private static int tickCounter = 0;
+    private static final int CACHE_CLEANUP_INTERVAL = 100; // 每100tick（5秒）清理一次缓存
+
     @Override
     public void onInitializeClient() {
         RecipeComponent.registerRecipeViewCreator(new GTRecipeViewCreator());
@@ -52,6 +56,13 @@ public class ClientProxy implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(listener -> {
             TooltipHelper.onClientTick();
             GTValues.CLIENT_TIME++;
+            
+            // 定期清理过期的渲染缓存
+            tickCounter++;
+            if (tickCounter >= CACHE_CLEANUP_INTERVAL) {
+                MachineRenderer.cleanupExpiredCache();
+                tickCounter = 0;
+            }
         });
     }
 }

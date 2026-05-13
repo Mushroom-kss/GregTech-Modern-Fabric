@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.*;
 
+import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
@@ -299,10 +300,15 @@ public class MetaMachineBlock extends AppearanceBlock implements IMachineBlock {
         if (machine != null) {
             machine.onNeighborChanged(block, fromPos, isMoving);
         }
+        
+        // 清除邻居方块的渲染缓存，因为状态可能已改变
+        if (LDLib.isClient()) {
+            com.gregtechceu.gtceu.client.renderer.machine.MachineRenderer.clearCache(pos);
+            com.gregtechceu.gtceu.client.renderer.machine.MachineRenderer.clearCache(fromPos);
+        }
+        
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
     }
-
-
 
     @Override
     public BlockState getBlockAppearance(BlockState state, BlockAndTintGetter level, BlockPos pos, Direction side, BlockState sourceState, BlockPos sourcePos) {
