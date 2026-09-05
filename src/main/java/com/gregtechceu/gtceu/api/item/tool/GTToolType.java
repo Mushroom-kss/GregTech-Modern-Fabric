@@ -251,9 +251,7 @@ public class GTToolType {
     public static class Builder {
         private final String name;
 
-        private final List<TagKey<Item>> forgeItemTags = new ArrayList<>();
         private final List<TagKey<Item>> fabricItemTags = new ArrayList<>();
-        private final List<TagKey<Block>> forgeHarvestTags = new ArrayList<>();
         private final List<TagKey<Block>> fabricHarvestTags = new ArrayList<>();
 
         @Setter
@@ -307,8 +305,8 @@ public class GTToolType {
                     symbol,
                     toolStats,
                     constructor,
-                    Platform.isForge() ? forgeHarvestTags : fabricHarvestTags,
-                    Platform.isForge() ? forgeItemTags : fabricItemTags,
+                    fabricHarvestTags,
+                    fabricItemTags,
                     modelLocation,
                     sound,
                     playSoundOnBlockDestroy,

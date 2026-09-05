@@ -122,7 +122,7 @@ public class GTCEu implements ModInitializer {
     }
 
     public static boolean isRebornEnergyLoaded() {
-        return Platform.isForge() || LDLib.isModLoaded(GTValues.MODID_REBORN_ENERGY);
+        return LDLib.isModLoaded(GTValues.MODID_REBORN_ENERGY);
     }
 
     public static boolean isAE2Loaded() {

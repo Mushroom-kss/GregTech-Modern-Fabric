@@ -351,7 +351,7 @@ public class FluidBuilder {
     private void determineColor(@Nullable Material material) {
         if (color != INFER_COLOR) return;
         if (isColorEnabled && material != null) {
-            color = Platform.isForge() ? GTUtil.convertRGBtoARGB(material.getMaterialRGB()) : material.getMaterialRGB();
+            color = material.getMaterialRGB();
         }
     }
 

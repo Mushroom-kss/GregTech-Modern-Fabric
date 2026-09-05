@@ -69,9 +69,7 @@ public class AEFluidDisplayWidget extends Widget {
                 List<Component> tooltips = new ArrayList<>();
                 tooltips.add(fluidStack.getDisplayName());
                 tooltips.add(Component.literal(String.format("%,d ", fluid.amount())).append(FluidHelper.getUnit()));
-                if (!Platform.isForge()) {
-                    tooltips.add(Component.literal("§6mB:§r %d mB".formatted(fluidStack.getAmount() * 1000 / FluidHelper.getBucket())));
-                }
+                tooltips.add(Component.literal("§6mB:§r %d mB".formatted(fluidStack.getAmount() * 1000 / FluidHelper.getBucket())));
                 TooltipsHandler.appendFluidTooltips(fluidStack.getFluid(), tooltips, TooltipFlag.NORMAL);
                 graphics.renderTooltip(Minecraft.getInstance().font, tooltips, Optional.empty(), mouseX, mouseY);
             }

@@ -127,8 +127,8 @@ public class ChemicalHelper {
                     for (FluidStorageKey key : FluidStorageKey.allKeys()) {
                         Fluid stored = property.getStorage().get(key);
                         TagKey<Fluid> tag = TagUtil.createFluidTag(BuiltInRegistries.FLUID.getKey(stored).getPath());
-                        if (!Platform.isForge() && tag.location().equals(new ResourceLocation("water")) && !stored.isSame(Fluids.WATER)) continue;
-                        if (!Platform.isForge() && tag.location().equals(new ResourceLocation("lava")) && !stored.isSame(Fluids.LAVA)) continue;
+                        if (tag.location().equals(new ResourceLocation("water")) && !stored.isSame(Fluids.WATER)) continue;
+                        if (tag.location().equals(new ResourceLocation("lava")) && !stored.isSame(Fluids.LAVA)) continue;
                         if (f == stored || f.is(tag)) {
                             return material;
                         }

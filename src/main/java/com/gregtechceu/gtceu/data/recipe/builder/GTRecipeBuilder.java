@@ -397,15 +397,13 @@ public class GTRecipeBuilder {
         return chancedOutput(ChemicalHelper.get(tag, mat, count), chance, tierChanceBoost);
     }
 
-    public GTRecipeBuilder inputFluids(FluidStack... inputs) {
-        return input(FluidRecipeCapability.CAP, Arrays.stream(inputs).map(fluid -> {
-            if (!Platform.isForge() && fluid.getFluid() == Fluids.WATER) { // Special case for fabric, because there all fluids have to be tagged as water to function as water when placed.
-                return FluidIngredient.of(fluid);
-            } else {
-                return FluidIngredient.of(TagUtil.createFluidTag(BuiltInRegistries.FLUID.getKey(fluid.getFluid()).getPath()), fluid.getAmount());
-            }
-        }).toArray(FluidIngredient[]::new));
-    }
+public GTRecipeBuilder inputFluids(FluidStack... inputs) {
+    return input(FluidRecipeCapability.CAP, Arrays.stream(inputs)
+            .map(fluid -> fluid.getFluid() == Fluids.WATER 
+                ? FluidIngredient.of(fluid) 
+                : FluidIngredient.of(TagUtil.createFluidTag(BuiltInRegistries.FLUID.getKey(fluid.getFluid()).getPath()), fluid.getAmount()))
+            .toArray(FluidIngredient[]::new));
+}
 
     public GTRecipeBuilder inputFluids(FluidIngredient... inputs) {
         return input(FluidRecipeCapability.CAP, inputs);

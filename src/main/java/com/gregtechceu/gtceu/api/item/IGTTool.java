@@ -485,6 +485,7 @@ public interface IGTTool extends IItemUIFactory, ItemLike {
         // The semantics was misunderstood, any stack that are "broken" (damaged beyond maxDamage)
         // Will be "empty" ItemStacks (while not == ItemStack.EMPTY, but isEmpty() == true)
         // PlayerDestroyItemEvent will not be fired correctly because of this oversight.
+        // But now we discord the forge support, so this problem cna be resolved.
         if (stack.isEmpty()) { // Equal to listening to PlayerDestroyItemEvent
             return getToolStats().getBrokenStack();
         }
@@ -512,7 +513,6 @@ public interface IGTTool extends IItemUIFactory, ItemLike {
     }
 
     default int definition$getDamage(ItemStack stack) {
-        // bypass the Forge OreDictionary using ItemStack#getItemDamage instead of ItemStack#getMetadata
         // this will allow tools to retain their oredicts when durability changes.
         // No normal tool ItemStack a player has should ever have a metadata value other than 0
         // so this should not cause unexpected behavior for them

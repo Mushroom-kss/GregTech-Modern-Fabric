@@ -28,21 +28,21 @@ public class TagUtil {
 
     public static <T> TagKey<T> createTag(Registry<T> registry, String path, boolean vanilla) {
         if (vanilla) return optionalTag(registry, new ResourceLocation("minecraft", path));
-        return optionalTag(registry, Platform.isForge() ? new ResourceLocation("forge", path) : new ResourceLocation("c", path));
+        return optionalTag(registry, new ResourceLocation("c", path));
     }
 
     public static <T> TagKey<T> createTag(ResourceKey<? extends Registry<T>> registryKey, String path, boolean vanilla) {
         if (vanilla) return optionalTag(registryKey, new ResourceLocation("minecraft", path));
-        return optionalTag(registryKey, Platform.isForge() ? new ResourceLocation("forge", path) : new ResourceLocation("c", path));
+        return optionalTag(registryKey, new ResourceLocation("c", path));
     }
 
-    public static <T> TagKey<T> createPlatformTag(Registry<T> registry, String forgePath, String fabricPath, boolean modTag) {
-        if (modTag) return optionalTag(registry, Platform.isForge() ? GTCEu.id(forgePath) : GTCEu.id(fabricPath));
-        return optionalTag(registry, Platform.isForge() ? new ResourceLocation("forge", forgePath) : new ResourceLocation("c", fabricPath));
+    public static <T> TagKey<T> createPlatformTag(Registry<T> registry, String fabricPath, boolean modTag) {
+        if (modTag) return optionalTag(registry,  GTCEu.id(fabricPath));
+        return optionalTag(registry, new ResourceLocation("c", fabricPath));
     }
 
-    public static <T> TagKey<T> createPlatformUnprefixedTag(Registry<T> registry, String forgePath, String fabricPath) {
-        return optionalTag(registry, Platform.isForge() ? new ResourceLocation(forgePath) : new ResourceLocation(fabricPath));
+    public static <T> TagKey<T> createPlatformUnprefixedTag(Registry<T> registry, String fabricPath) {
+        return optionalTag(registry, new ResourceLocation(fabricPath));
     }
 
     public static <T> TagKey<T> createModTag(Registry<T> registry, String path) {
@@ -65,8 +65,8 @@ public class TagUtil {
         return createModTag(BuiltInRegistries.BLOCK, path);
     }
 
-    public static TagKey<Block> createPlatformBlockTag(String forgePath, String fabricPath, boolean modTag) {
-        return createPlatformTag(BuiltInRegistries.BLOCK, forgePath, fabricPath, modTag);
+    public static TagKey<Block> createPlatformBlockTag(String fabricPath, boolean modTag) {
+        return createPlatformTag(BuiltInRegistries.BLOCK, fabricPath, modTag);
     }
 
     public static TagKey<Item> createItemTag(String path) {
@@ -77,12 +77,12 @@ public class TagUtil {
         return createTag(BuiltInRegistries.ITEM, path, vanilla);
     }
 
-    public static TagKey<Item> createPlatformItemTag(String forgePath, String fabricPath) {
-        return createPlatformItemTag(forgePath, fabricPath, false);
+    public static TagKey<Item> createPlatformItemTag(String fabricPath) {
+        return createPlatformItemTag(fabricPath, false);
     }
 
-    public static TagKey<Item> createPlatformItemTag(String forgePath, String fabricPath, boolean modTag) {
-        return createPlatformTag(BuiltInRegistries.ITEM, forgePath, fabricPath, modTag);
+    public static TagKey<Item> createPlatformItemTag(String fabricPath, boolean modTag) {
+        return createPlatformTag(BuiltInRegistries.ITEM, fabricPath, modTag);
     }
 
     public static TagKey<Item> createModItemTag(String path) {
